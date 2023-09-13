@@ -1,5 +1,5 @@
 [package]
-name = "rpc"
+name = "l1x-rpc"
 version = "0.1.0"
 edition = "2021"
 
