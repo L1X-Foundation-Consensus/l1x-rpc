@@ -106,6 +106,95 @@ pub mod rpc_model {
             Ok(result_txn_type)
         }
     }
+
+    impl TryFrom<transaction::Transaction> for super::transaction::TransactionType {
+        type Error = anyhow::Error;
+
+        fn try_from(value: transaction::Transaction) -> Result<Self, Self::Error> {
+            let result_txn_type = match value {
+                transaction::Transaction::NativeTokenTransfer(NativeTokenTransfer {
+                    address,
+                    amount,
+                }) => super::transaction::TransactionType::NativeTokenTransfer(
+                    address
+                        .try_into()
+                        .map_err(|_| anyhow!("Failed to convert address bytes"))?,
+                    amount.into(),
+                ),
+                transaction::Transaction::SmartContractDeployment(SmartContractDeployment {
+                    access_type,
+                    contract_type,
+                    contract_code,
+                }) => super::transaction::TransactionType::SmartContractDeployment {
+                    access_type: access_type.try_into()?,
+                    contract_type: contract_type.try_into()?,
+                    contract_code,
+                },
+                transaction::Transaction::SmartContractInit(SmartContractInit {
+                    address,
+                    arguments,
+                }) => super::transaction::TransactionType::SmartContractInit(
+                    address
+                        .try_into()
+                        .map_err(|_| anyhow!("Failed to convert address bytes"))?,
+                    arguments,
+                ),
+                transaction::Transaction::SmartContractFunctionCall(
+                    SmartContractFunctionCall {
+                        contract_address,
+                        function_name,
+                        arguments,
+                    },
+                ) => super::transaction::TransactionType::SmartContractFunctionCall {
+                    contract_instance_address: contract_address
+                        .try_into()
+                        .map_err(|_| anyhow!("Failed to convert contract_address bytes"))?,
+                    function: function_name,
+                    arguments,
+                },
+                // FIXME: should CreateStakingPool be omitted from Block transactions?
+                // transaction::Transaction::CreateStakingPool(CreateStakingPool {
+                //     contract_instance_address,
+                //     min_stake,
+                //     max_stake,
+                //     min_pool_balance,
+                //     max_pool_balance,
+                //     staking_period,
+                // }) => super::transaction::TransactionType::CreateStakingPool {
+                //     contract_instance_address: match contract_instance_address {
+                //         Some(x) => Some(x.try_into().map_err(|_| {
+                //             anyhow!("Failed to convert contract_instance_address bytes")
+                //         })?),
+                //         None => None,
+                //     },
+                //     min_stake: min_stake.map(|x| x.into()),
+                //     max_stake: max_stake.map(|x| x.into()),
+                //     min_pool_balance: min_pool_balance.map(|x| x.into()),
+                //     max_pool_balance: max_pool_balance.map(|x| x.into()),
+                //     staking_period: staking_period.map(|x| x.into()),
+                // },
+                transaction::Transaction::Stake(Stake {
+                    pool_address,
+                    amount,
+                }) => super::transaction::TransactionType::Stake {
+                    pool_address: pool_address
+                        .try_into()
+                        .map_err(|_| anyhow!("Failed to convert pool_address bytes"))?,
+                    amount: amount.into(),
+                },
+                transaction::Transaction::Unstake(UnStake {
+                    pool_address,
+                    amount,
+                }) => super::transaction::TransactionType::UnStake {
+                    pool_address: pool_address
+                        .try_into()
+                        .map_err(|_| anyhow!("Failed to convert pool_address bytes"))?,
+                    amount: amount.into(),
+                },
+            };
+            Ok(result_txn_type)
+        }
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize)]
