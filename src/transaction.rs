@@ -1,5 +1,48 @@
 use crate::primitives::*;
+use anyhow::{anyhow, Error};
 use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[repr(i8)]
+pub enum AccessType {
+    PRIVATE = 0,
+    PUBLIC = 1,
+    RESTICTED = 2, //Will be used in future to restrict the contract to be initiated by only specified addresses.
+}
+
+impl TryInto<AccessType> for i32 {
+    type Error = Error;
+
+    fn try_into(self) -> Result<AccessType, Self::Error> {
+        match self {
+            0 => Ok(AccessType::PRIVATE),
+            1 => Ok(AccessType::PUBLIC),
+            2 => Ok(AccessType::RESTICTED),
+            _ => Err(anyhow!("Invalid access type {}", self)),
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[repr(i8)]
+pub enum ContractType {
+    L1XVM = 0,
+    EVM = 1,
+    XTALK = 2,
+}
+
+impl TryInto<ContractType> for i32 {
+    type Error = Error;
+
+    fn try_into(self) -> Result<ContractType, Self::Error> {
+        match self {
+            0 => Ok(ContractType::L1XVM),
+            1 => Ok(ContractType::EVM),
+            2 => Ok(ContractType::XTALK),
+            _ => Err(anyhow!("Invalid contract type {}", self)),
+        }
+    }
+}
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Transaction {
