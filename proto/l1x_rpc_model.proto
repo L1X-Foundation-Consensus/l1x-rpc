@@ -16,6 +16,8 @@ service Node {
   // P3
   rpc GetChainState (GetChainStateRequest) returns (GetChainStateResponse);
   rpc GetBlockByNumber (GetBlockByNumberRequest) returns (GetBlockByNumberResponse);
+  // rpc GetLatestBlockHeaders (GetLatestBlockHeadersRequest) returns (GetLatestBlockHeadersResponse);
+  // rpc GetLatestTransactions (GetLatestTransactionsRequest) returns (GetLatestTransactionsResponse);
   rpc GetStake(GetStakeRequest) returns (GetStakeResponse);
   rpc GetCurrentNonce(GetCurrentNonceRequest) returns (GetCurrentNonceResponse);
   rpc GetEvents(GetEventsRequest) returns (GetEventsResponse);
@@ -205,6 +207,16 @@ message Block {
   string cluster_address = 7;
 }
 
+message BlockHeader {
+  uint64 block_number = 1;
+  string block_hash = 2;
+  string parent_hash = 3;
+  uint64 timestamp = 4;
+  BlockType block_type = 5;
+  string cluster_address = 6;
+  uint32 num_transactions = 7;
+}
+
 enum BlockType {
   BLOCK_TYPE_UNSPECIFIED = 0;
   BLOCK_TYPE_L1X_TOKEN_BLOCK = 1;
@@ -218,6 +230,36 @@ message GetBlockByNumberRequest {
 
 message GetBlockByNumberResponse {
   Block block = 1;
+}
+
+message GetLatestBlockHeadersRequest {
+  uint32 number_of_blocks = 1;
+  uint32 blocks_per_page = 2;
+}
+
+message GetLatestBlockHeadersResponse {
+  uint32 page_number = 1;
+  repeated BlockHeader page = 2;
+}
+
+message GetLatestTransactionsRequest {
+  uint32 number_of_transactions = 1;
+  uint32 transactions_per_page = 2;
+}
+
+message GetLatestTransactionsResponse {
+  uint32 page_number = 1;
+  repeated LatestTransactions page = 2; // Each page contains number_of_transactions transactions
+}
+
+message LatestTransactions {
+  Transaction transaction = 1;
+  bytes from = 2; // Potential "to" address is inside transaction if tx is of a type that has a "to" address
+  bytes transaction_hash = 3;
+  bytes block_hash = 4;
+  int64 block_number = 5;
+  string fee_used = 6;
+  uint64 timestamp = 7;
 }
 
 // Smart-contract read-only call
