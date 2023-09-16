@@ -139,6 +139,9 @@ message Transaction {
     Stake stake = 6;
     UnStake unstake = 7;
   }
+  string tx_hash = 8;
+  string fee_used = 9;
+  string from = 10;
 }
 
 message SubmitTransactionRequest {
