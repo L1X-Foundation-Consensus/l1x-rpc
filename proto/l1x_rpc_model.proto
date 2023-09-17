@@ -168,12 +168,20 @@ message GetTransactionReceiptRequest {
   string hash = 1;
 }
 
+// message GetTransactionReceiptResponse {
+//   Transaction transaction = 1;
+//   TransactionStatus status = 2;
+//   string block_number = 3;
+//   string block_hash = 4;
+//   string fee_used = 5;
+//   uint64 timestamp = 6;
+//   bytes from = 7;
+// }
+
 message GetTransactionReceiptResponse {
-  Transaction transaction = 1;
+  TransactionResponse transaction = 1;
   TransactionStatus status = 2;
-  string block_number = 3;
-  string block_hash = 4;
-  string fee_used = 5;
+
 }
 
 // Transactions list
@@ -250,10 +258,10 @@ message GetLatestTransactionsRequest {
 
 message GetLatestTransactionsResponse {
   uint32 page_number = 1;
-  repeated LatestTransactions page = 2; // Each page contains number_of_transactions transactions
+  repeated TransactionResponse page = 2; // Each page contains number_of_transactions transactions
 }
 
-message LatestTransactions {
+message TransactionResponse {
   Transaction transaction = 1;
   bytes from = 2; // Potential "to" address is inside transaction if tx is of a type that has a "to" address
   bytes transaction_hash = 3;
