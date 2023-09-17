@@ -129,6 +129,7 @@ enum TransactionStatus {
   TRANSACTION_STATUS_FAILED = 1;
 }
 
+// Used when submitting a transaction
 message Transaction {
   TransactionType tx_type = 1;
   oneof transaction {
@@ -139,9 +140,6 @@ message Transaction {
     Stake stake = 6;
     UnStake unstake = 7;
   }
-  string tx_hash = 8;
-  string fee_used = 9;
-  string from = 10;
 }
 
 message SubmitTransactionRequest {
