@@ -211,7 +211,7 @@ message Block {
   string hash = 2;
   string parent_hash = 3;
   uint64 timestamp = 4;
-  repeated Transaction transactions = 5;
+  repeated TransactionResponse transactions = 5;
   BlockType block_type = 6;
   string cluster_address = 7;
 }
