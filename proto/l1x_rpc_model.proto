@@ -168,16 +168,6 @@ message GetTransactionReceiptRequest {
   string hash = 1;
 }
 
-// message GetTransactionReceiptResponse {
-//   Transaction transaction = 1;
-//   TransactionStatus status = 2;
-//   string block_number = 3;
-//   string block_hash = 4;
-//   string fee_used = 5;
-//   uint64 timestamp = 6;
-//   bytes from = 7;
-// }
-
 message GetTransactionReceiptResponse {
   TransactionResponse transaction = 1;
   TransactionStatus status = 2;
