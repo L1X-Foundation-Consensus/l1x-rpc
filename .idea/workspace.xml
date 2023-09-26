@@ -13,6 +13,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b6ffbb2d-341e-495a-9328-73c06a71d630" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rustfmt.toml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/l1x-rpc.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
@@ -101,7 +104,7 @@
       <updated>1694732762310</updated>
       <workItem from="1694732763333" duration="2302000" />
       <workItem from="1695327703886" duration="637000" />
-      <workItem from="1695708453584" duration="4452000" />
+      <workItem from="1695708453584" duration="4964000" />
     </task>
     <servers />
   </component>
