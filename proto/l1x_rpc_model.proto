@@ -46,7 +46,7 @@ message GetAccountStateResponse {
 // Transaction
 message NativeTokenTransfer {
   bytes address = 1;
-  uint64 amount = 2;
+  string amount = 2;
 }
 
 message SmartContractDeployment {
