@@ -68,21 +68,21 @@ message SmartContractFunctionCall {
 
 message CreateStakingPool {
   optional bytes contract_instance_address = 1;
-  optional uint64 min_stake = 2;
-  optional uint64 max_stake = 3;
-  optional uint64 min_pool_balance = 4;
-  optional uint64 max_pool_balance = 5;
-  optional uint64 staking_period = 6;
+  optional string min_stake = 2;
+  optional string max_stake = 3;
+  optional string min_pool_balance = 4;
+  optional string max_pool_balance = 5;
+  optional string staking_period = 6;
 }
 
 message Stake {
   bytes pool_address = 1;
-  uint64 amount = 2;
+  string amount = 2;
 }
 
 message UnStake {
   bytes pool_address = 1;
-  uint64 amount = 2;
+  string amount = 2;
 }
 
 message GetCurrentNonceRequest {
