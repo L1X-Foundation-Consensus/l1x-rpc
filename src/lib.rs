@@ -13,6 +13,7 @@ use sha3::{Digest, Keccak256};
 
 pub mod rpc_model {
     tonic::include_proto!("rpc_model");
+    use std::str::FromStr;
     use anyhow::anyhow;
 
     impl TryFrom<submit_transaction_request::TransactionType> for super::transaction::TransactionType {
@@ -28,7 +29,7 @@ pub mod rpc_model {
                     address
                         .try_into()
                         .map_err(|_| anyhow!("Failed to convert address bytes"))?,
-                    amount.into(),
+                     u128::from_str(&amount).map_err(|_| anyhow!("Failed to convert string to u128"))?,
                 ),
                 submit_transaction_request::TransactionType::SmartContractDeployment(
                     SmartContractDeployment {
@@ -78,11 +79,13 @@ pub mod rpc_model {
                         })?),
                         None => None,
                     },
-                    min_stake: min_stake.map(|x| x.into()),
-                    max_stake: max_stake.map(|x| x.into()),
-                    min_pool_balance: min_pool_balance.map(|x| x.into()),
-                    max_pool_balance: max_pool_balance.map(|x| x.into()),
-                    staking_period: staking_period.map(|x| x.into()),
+
+
+                    min_stake: min_stake.and_then(|s| s.parse().ok()),
+                    max_stake: max_stake.and_then(|s| s.parse().ok()),
+                    min_pool_balance: min_pool_balance.and_then(|s| s.parse().ok()),
+                    max_pool_balance: max_pool_balance.and_then(|s| s.parse().ok()),
+                    staking_period: staking_period.and_then(|s| s.parse().ok()),
                 },
                 submit_transaction_request::TransactionType::Stake(Stake {
                     pool_address,
@@ -91,7 +94,7 @@ pub mod rpc_model {
                     pool_address: pool_address
                         .try_into()
                         .map_err(|_| anyhow!("Failed to convert pool_address bytes"))?,
-                    amount: amount.into(),
+                    amount: u128::from_str(&amount).map_err(|_| anyhow!("Failed to convert string to u128"))?,
                 },
                 submit_transaction_request::TransactionType::Unstake(UnStake {
                     pool_address,
@@ -100,7 +103,7 @@ pub mod rpc_model {
                     pool_address: pool_address
                         .try_into()
                         .map_err(|_| anyhow!("Failed to convert pool_address bytes"))?,
-                    amount: amount.into(),
+                    amount: u128::from_str(&amount).map_err(|_| anyhow!("Failed to convert string to u128"))?,
                 },
             };
             Ok(result_txn_type)
@@ -119,7 +122,7 @@ pub mod rpc_model {
                     address
                         .try_into()
                         .map_err(|_| anyhow!("Failed to convert address bytes"))?,
-                    amount.into(),
+                    u128::from_str(&amount).map_err(|_| anyhow!("Failed to convert string to u128"))?,
                 ),
                 transaction::Transaction::SmartContractDeployment(SmartContractDeployment {
                     access_type,
@@ -180,7 +183,7 @@ pub mod rpc_model {
                     pool_address: pool_address
                         .try_into()
                         .map_err(|_| anyhow!("Failed to convert pool_address bytes"))?,
-                    amount: amount.into(),
+                    amount: u128::from_str(&amount).map_err(|_| anyhow!("Failed to convert string to u128"))?,
                 },
                 transaction::Transaction::Unstake(UnStake {
                     pool_address,
@@ -189,7 +192,7 @@ pub mod rpc_model {
                     pool_address: pool_address
                         .try_into()
                         .map_err(|_| anyhow!("Failed to convert pool_address bytes"))?,
-                    amount: amount.into(),
+                    amount: u128::from_str(&amount).map_err(|_| anyhow!("Failed to convert string to u128"))?,
                 },
             };
             Ok(result_txn_type)
