@@ -53,6 +53,9 @@ message SmartContractDeployment {
   AccessType access_type = 1;
   ContractType contract_type = 2;
   bytes contract_code = 3;
+  uint64 value = 4;
+  bytes salt = 5;
+
 }
 
 message SmartContractInit {
