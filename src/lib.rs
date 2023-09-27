@@ -28,11 +28,19 @@ pub mod rpc_model {
 						.map_err(|_| anyhow!("Failed to convert string to u128"))?,
 				),
 				submit_transaction_request::TransactionType::SmartContractDeployment(
-					SmartContractDeployment { access_type, contract_type, contract_code },
+					SmartContractDeployment {
+						access_type,
+						contract_type,
+						contract_code,
+						value,
+						salt,
+					},
 				) => super::transaction::TransactionType::SmartContractDeployment {
 					access_type: access_type.try_into()?,
 					contract_type: contract_type.try_into()?,
 					contract_code,
+					value: value.into(),
+					salt,
 				},
 				submit_transaction_request::TransactionType::SmartContractInit(
 					SmartContractInit { address, arguments },
@@ -114,10 +122,14 @@ pub mod rpc_model {
 					access_type,
 					contract_type,
 					contract_code,
+					value,
+					salt,
 				}) => super::transaction::TransactionType::SmartContractDeployment {
 					access_type: access_type.try_into()?,
 					contract_type: contract_type.try_into()?,
 					contract_code,
+					value: value.into(),
+					salt,
 				},
 				transaction::Transaction::SmartContractInit(SmartContractInit {
 					address,
