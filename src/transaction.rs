@@ -63,6 +63,8 @@ pub enum TransactionType {
 		access_type: AccessType,
 		contract_type: ContractType,
 		contract_code: ContractCode,
+		value: Balance,
+		salt: Salt,
 	},
 	SmartContractInit(Address, ContractArgument),
 	SmartContractFunctionCall {
