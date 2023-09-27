@@ -62,6 +62,8 @@ pub enum TransactionType {
         access_type: AccessType,
         contract_type: ContractType,
         contract_code: ContractCode,
+        value: Balance,
+        salt: Vec<u8>,
     },
     SmartContractInit(Address, ContractArgument),
     SmartContractFunctionCall {
