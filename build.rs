@@ -51,6 +51,22 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 		.type_attribute("SmartContractReadOnlyCallResponse", SERDE_ANNOTATION)
 		.type_attribute("GetStakeRequest", SERDE_ANNOTATION)
 		.type_attribute("GetStakeResponse", SERDE_ANNOTATION)
+		.type_attribute("QueryEVMContractRequest", SERDE_ANNOTATION)
+		.type_attribute("QueryEVMContractResponse", SERDE_ANNOTATION)
+		.type_attribute("GetEVMEventsRequest", SERDE_ANNOTATION)
+		.type_attribute("GetEVMEventsResponse", SERDE_ANNOTATION)
+		.type_attribute("EstimateEVMGasRequest", SERDE_ANNOTATION)
+		.type_attribute("EstimateEVMGasResponse", SERDE_ANNOTATION)
+		.type_attribute("SignedEVMCallWithConfirmationsRequest", SERDE_ANNOTATION)
+		.type_attribute("SignedEVMCallWithConfirmationsResponse", SERDE_ANNOTATION)
+		.type_attribute("ContractEVMCallWithConfirmationsRequest", SERDE_ANNOTATION)
+		.type_attribute("ContractEVMCallWithConfirmationsResponse", SERDE_ANNOTATION)
+		.type_attribute("SignedEVMCallRequest", SERDE_ANNOTATION)
+		.type_attribute("SignedEVMCallResponse", SERDE_ANNOTATION)
+		.type_attribute("EVMCallRequest", SERDE_ANNOTATION)
+		.type_attribute("EVMCallResponse", SERDE_ANNOTATION)
+		.type_attribute("DeployContractRequest", SERDE_ANNOTATION)
+		.type_attribute("DeployContractResponse", SERDE_ANNOTATION)
 		.protoc_arg("--experimental_allow_proto3_optional");
 	tonic_build::configure().compile_with_config(config, &["l1x_rpc_model.proto"], &["proto"])?;
 

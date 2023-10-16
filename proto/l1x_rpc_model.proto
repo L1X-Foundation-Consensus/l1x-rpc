@@ -21,6 +21,12 @@ service Node {
   rpc GetStake(GetStakeRequest) returns (GetStakeResponse);
   rpc GetCurrentNonce(GetCurrentNonceRequest) returns (GetCurrentNonceResponse);
   rpc GetEvents(GetEventsRequest) returns (GetEventsResponse);
+
+  // P4
+  rpc QueryEVMContract(QueryEVMContractRequest) returns (QueryEVMContractResponse);
+  rpc GetEVMEvents(GetEVMEventsRequest) returns (GetEVMEventsResponse);
+  rpc EstimateEVMGas(EstimateEVMGasRequest) returns (EstimateEVMGasResponse);
+  rpc SignedEVMCallWithConfirmations(SignedEVMCallWithConfirmationsRequest) returns (SignedEVMCallWithConfirmationsResponse);
 }
 
 // Account
@@ -288,4 +294,126 @@ message GetStakeRequest {
 
 message GetStakeResponse {
   string amount = 1;
+}
+
+message QueryEVMContractRequest {
+  string address = 0; 
+  string function_name = 1; 
+  repeated string params = 2, 
+  optional uint64 block = 3;
+  optional uint64 gas = 4;
+  optional uint64 gas_price = 5;
+  optional uint64 value = 6;
+}
+
+message QueryEVMContractResponse {
+  repeated string tokens = 1; 
+}
+
+message GetEVMEventsRequest {
+  string event = 1; 
+  string topic0 = 2; 
+  string topic1 = 3;
+  string topic2 = 4;
+}
+
+message GetEVMEventsResponse {
+  repeated string events = 1; 
+}
+
+message EstimateEVMGasRequest{
+  string function_name = 1; 
+  optional uint64 gas = 2;
+  optional uint64 gas_price = 3;
+  optional uint64 value = 4;
+  repeated string params = 5;
+  string address = 6;
+}
+
+message EstimateEVMGasResponse {
+  uint64 gas = 1; 
+}
+
+enum EvmReceipt{
+  TRANSACTION_HASH = 0;
+  TRANSACTION_INDEX = 1;
+  BLOCK_HASH = 2,
+  BLOCK_NUMBER = 3;
+  FROM = 4;
+  TO = 5;
+  CUMULATIVE_GAS_USED = 6;
+  GAS_USED = 7;
+  CONTRACT_ADDRESS = 8;
+  LOGS = 9;
+  STATUS = 10;
+  ROOT = 11;
+  LOGS_BLOOM = 12;
+  TRANSACTION_TYPE = 13;
+  EFFECTIVE_GAS_PRICE = 14;
+}
+
+message SignedEVMCallWithConfirmationsRequest{
+  string function = 1;
+  repeated string params = 2;
+  optional uint64 gas = 3;
+  optional uint64 gas_price = 4;
+  optional uint64 value = 5,
+  uint64 confirmations = 6,
+},
+
+message SignedEVMCallWithConfirmationsResponse{
+	EvmReceipt receipt = 1;
+},
+
+
+message ContractEVMCallWithConfirmationsRequest{
+  string address = 1;
+  string function = 2;
+  repeated string params = 3;
+  optional uint64 gas = 4;
+  optional uint64 gas_price = 5;
+  optional uint64 value = 6;
+  uint64 confirmations = 7;
+},
+
+message ContractEVMCallWithConfirmationsResponse{
+	EvmReceipt receipt = 1;
+},
+
+message SignedEVMCallRequest{
+  string function = 1;
+  repeated string params = 2;
+  optional uint64 gas = 3;
+  optional uint64 gas_price = 4;
+  optional uint64 value = 5;
+}
+
+message SignedEVMCallResponse{
+  string hash = 1;
+}
+
+message EVMCallRequest{
+  string function = 1;
+  string address = 2
+  repeated string params = 3;
+  optional uint64 gas = 4;
+  optional uint64 gas_price = 5;
+  optional uint64 value = 6;
+}
+
+message EVMCallResponse{
+  string hash = 1;
+}
+
+message DeployContractRequest{
+  string address = 2
+  repeated string params = 3;
+  optional uint64 gas = 4;
+  optional uint64 gas_price = 5;
+  optional uint64 value = 6; 
+  uint64 confirmations = 7;
+}
+
+message DeployContractResponse{
+  string tx = 1;
 }
