@@ -304,7 +304,7 @@ message QueryEVMContractRequest {
   string address = 1; 
   string function_name = 2; 
   repeated string params = 3;
-  optional uint64 block = 4;
+  uint64 block = 4;
   optional uint64 gas = 5;
   optional uint64 gas_price = 6;
   optional uint64 value = 7;

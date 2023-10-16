@@ -67,6 +67,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 		.type_attribute("EVMCallResponse", SERDE_ANNOTATION)
 		.type_attribute("DeployContractRequest", SERDE_ANNOTATION)
 		.type_attribute("DeployContractResponse", SERDE_ANNOTATION)
+		.type_attribute("EvmReceipt", SERDE_ANNOTATION)
 		.protoc_arg("--experimental_allow_proto3_optional");
 	tonic_build::configure().compile_with_config(config, &["l1x_rpc_model.proto"], &["proto"])?;
 
