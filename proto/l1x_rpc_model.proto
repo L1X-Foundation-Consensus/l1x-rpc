@@ -366,7 +366,7 @@ message SignedEVMCallWithConfirmationsRequest{
 }
 
 message SignedEVMCallWithConfirmationsResponse{
-	repeated string receipt = 1;
+	string receipt = 1;
 }
 
 
@@ -381,7 +381,7 @@ message EVMCallWithConfirmationsRequest{
 }
 
 message EVMCallWithConfirmationsResponse{
-	repeated string receipt = 1;
+	string receipt = 1;
 }
 
 message SignedEVMCallRequest{
