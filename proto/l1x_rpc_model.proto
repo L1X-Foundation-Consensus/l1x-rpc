@@ -419,5 +419,5 @@ message DeployContractRequest{
 }
 
 message DeployContractResponse{
-  string tx = 1;
+  string address = 1;
 }
