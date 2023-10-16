@@ -27,6 +27,10 @@ service Node {
   rpc GetEVMEvents(GetEVMEventsRequest) returns (GetEVMEventsResponse);
   rpc EstimateEVMGas(EstimateEVMGasRequest) returns (EstimateEVMGasResponse);
   rpc SignedEVMCallWithConfirmations(SignedEVMCallWithConfirmationsRequest) returns (SignedEVMCallWithConfirmationsResponse);
+  rpc EVMCallWithConfirmations(EVMCallWithConfirmationsRequest) returns (EVMCallWithConfirmationsResponse);
+  rpc SignedEVMCall(SignedEVMCallRequest) returns (SignedEVMCallResponse);
+  rpc EVMCall(EVMCallRequest) returns (EVMCallResponse);
+  rpc DeployContract(DeployContractRequest) returns (DeployContractResponse);
 }
 
 // Account
@@ -297,13 +301,13 @@ message GetStakeResponse {
 }
 
 message QueryEVMContractRequest {
-  string address = 0; 
-  string function_name = 1; 
-  repeated string params = 2, 
-  optional uint64 block = 3;
-  optional uint64 gas = 4;
-  optional uint64 gas_price = 5;
-  optional uint64 value = 6;
+  string address = 1; 
+  string function_name = 2; 
+  repeated string params = 3;
+  optional uint64 block = 4;
+  optional uint64 gas = 5;
+  optional uint64 gas_price = 6;
+  optional uint64 value = 7;
 }
 
 message QueryEVMContractResponse {
@@ -337,7 +341,7 @@ message EstimateEVMGasResponse {
 enum EvmReceipt{
   TRANSACTION_HASH = 0;
   TRANSACTION_INDEX = 1;
-  BLOCK_HASH = 2,
+  BLOCK_HASH = 2;
   BLOCK_NUMBER = 3;
   FROM = 4;
   TO = 5;
@@ -357,16 +361,16 @@ message SignedEVMCallWithConfirmationsRequest{
   repeated string params = 2;
   optional uint64 gas = 3;
   optional uint64 gas_price = 4;
-  optional uint64 value = 5,
-  uint64 confirmations = 6,
-},
+  optional uint64 value = 5;
+  uint64 confirmations = 6;
+}
 
 message SignedEVMCallWithConfirmationsResponse{
 	EvmReceipt receipt = 1;
-},
+}
 
 
-message ContractEVMCallWithConfirmationsRequest{
+message EVMCallWithConfirmationsRequest{
   string address = 1;
   string function = 2;
   repeated string params = 3;
@@ -374,11 +378,11 @@ message ContractEVMCallWithConfirmationsRequest{
   optional uint64 gas_price = 5;
   optional uint64 value = 6;
   uint64 confirmations = 7;
-},
+}
 
-message ContractEVMCallWithConfirmationsResponse{
+message EVMCallWithConfirmationsResponse{
 	EvmReceipt receipt = 1;
-},
+}
 
 message SignedEVMCallRequest{
   string function = 1;
@@ -394,7 +398,7 @@ message SignedEVMCallResponse{
 
 message EVMCallRequest{
   string function = 1;
-  string address = 2
+  string address = 2;
   repeated string params = 3;
   optional uint64 gas = 4;
   optional uint64 gas_price = 5;
@@ -406,7 +410,7 @@ message EVMCallResponse{
 }
 
 message DeployContractRequest{
-  string address = 2
+  string address = 2;
   repeated string params = 3;
   optional uint64 gas = 4;
   optional uint64 gas_price = 5;
