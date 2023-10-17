@@ -303,7 +303,7 @@ message GetStakeResponse {
 message QueryEVMContractRequest {
   string address = 1; 
   string function_name = 2; 
-  repeated string params = 3;
+  repeated string parameters = 3;
   uint64 block = 4;
   optional uint64 gas = 5;
   optional uint64 gas_price = 6;
@@ -330,7 +330,7 @@ message EstimateEVMGasRequest{
   optional uint64 gas = 2;
   optional uint64 gas_price = 3;
   optional uint64 value = 4;
-  repeated string params = 5;
+  repeated string parameters = 5;
   string address = 6;
 }
 
@@ -358,7 +358,7 @@ enum EvmReceipt{
 
 message SignedEVMCallWithConfirmationsRequest{
   string function = 1;
-  repeated string params = 2;
+  repeated string parameters = 2;
   optional uint64 gas = 3;
   optional uint64 gas_price = 4;
   optional uint64 value = 5;
@@ -373,7 +373,7 @@ message SignedEVMCallWithConfirmationsResponse{
 message EVMCallWithConfirmationsRequest{
   string address = 1;
   string function = 2;
-  repeated string params = 3;
+  repeated string parameters = 3;
   optional uint64 gas = 4;
   optional uint64 gas_price = 5;
   optional uint64 value = 6;
@@ -386,7 +386,7 @@ message EVMCallWithConfirmationsResponse{
 
 message SignedEVMCallRequest{
   string function = 1;
-  repeated string params = 2;
+  repeated string parameters = 2;
   optional uint64 gas = 3;
   optional uint64 gas_price = 4;
   optional uint64 value = 5;
@@ -399,7 +399,7 @@ message SignedEVMCallResponse{
 message EVMCallRequest{
   string function = 1;
   string address = 2;
-  repeated string params = 3;
+  repeated string parameters = 3;
   optional uint64 gas = 4;
   optional uint64 gas_price = 5;
   optional uint64 value = 6;
@@ -411,7 +411,7 @@ message EVMCallResponse{
 
 message DeployContractRequest{
   string address = 2;
-  repeated string params = 3;
+  repeated string parameters = 3;
   optional uint64 gas = 4;
   optional uint64 gas_price = 5;
   optional uint64 value = 6; 
