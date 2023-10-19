@@ -412,8 +412,7 @@ message EVMCallResponse{
 message DeployContractRequest{
   string url = 1;
   string signing_key = 2;
-  repeated string parameters = 3;
-  optional string constructor_args = 4;
+  optional string constructor_args = 3;
 }
 
 message DeployContractResponse{
