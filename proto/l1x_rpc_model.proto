@@ -338,24 +338,6 @@ message EstimateEVMGasResponse {
   uint64 gas = 1; 
 }
 
-enum EvmReceipt{
-  TRANSACTION_HASH = 0;
-  TRANSACTION_INDEX = 1;
-  BLOCK_HASH = 2;
-  BLOCK_NUMBER = 3;
-  FROM = 4;
-  TO = 5;
-  CUMULATIVE_GAS_USED = 6;
-  GAS_USED = 7;
-  CONTRACT_ADDRESS = 8;
-  LOGS = 9;
-  STATUS = 10;
-  ROOT = 11;
-  LOGS_BLOOM = 12;
-  TRANSACTION_TYPE = 13;
-  EFFECTIVE_GAS_PRICE = 14;
-}
-
 message SignedEVMCallWithConfirmationsRequest{
   string function = 1;
   repeated string parameters = 2;
@@ -409,10 +391,16 @@ message EVMCallResponse{
   string hash = 1;
 }
 
+enum ConstructorArgs{
+  STRING_ARG=0;
+  ARRAY_ARG=1;
+  NUMBER_ARG=2;
+}
+
 message DeployContractRequest{
   string url = 1;
   string signing_key = 2;
-  optional string constructor_args = 3;
+  optional ConstructorArgs constructor_args = 3;
 }
 
 message DeployContractResponse{
