@@ -4,6 +4,70 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[repr(i8)]
+pub enum ConstructorArgs {
+    StringArg(String),
+    ArrayArg(Vec<ArrayArgItem>),
+    NumberArg(u64),
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[repr(i8)]
+pub enum ArrayArgItem {
+    StringItem(String),
+    IntItem(u64),
+}
+
+
+impl TryInto<ConstructorArgs> for &str {
+    type Error = ();
+
+    fn try_into(self) -> Result<ConstructorArgs, Self::Error> {
+        Ok(ConstructorArgs::StringArg(self.to_string()))
+    }
+}
+
+impl TryInto<ConstructorArgs> for Vec<ArrayArgItem> {
+    type Error = ();
+
+    fn try_into(self) -> Result<ConstructorArgs, Self::Error> {
+        Ok(ConstructorArgs::ArrayArg(self))
+    }
+}
+
+impl TryInto<ArrayArgItem> for &str {
+    type Error = ();
+
+    fn try_into(self) -> Result<ArrayArgItem, Self::Error> {
+        Ok(ArrayArgItem::StringItem(self.to_string()))
+    }
+}
+
+impl TryInto<ArrayArgItem> for u64 {
+    type Error = ();
+
+    fn try_into(self) -> Result<ArrayArgItem, Self::Error> {
+        Ok(ArrayArgItem::IntItem(self))
+    }
+}
+
+impl TryInto<ArrayArgItem> for u32 {
+    type Error = ();
+
+    fn try_into(self) -> Result<ArrayArgItem, Self::Error> {
+        Ok(ArrayArgItem::IntItem(self as u64))
+    }
+}
+
+impl TryInto<ConstructorArgs> for u64 {
+    type Error = ();
+
+    fn try_into(self) -> Result<ConstructorArgs, Self::Error> {
+        Ok(ConstructorArgs::NumberArg(self))
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[repr(i8)]
 pub enum AccessType {
 	PRIVATE = 0,
 	PUBLIC = 1,
