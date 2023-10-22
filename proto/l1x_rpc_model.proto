@@ -31,7 +31,7 @@ service Node {
   rpc SignedEVMCall(SignedEVMCallRequest) returns (SignedEVMCallResponse);
   rpc EVMCall(EVMCallRequest) returns (EVMCallResponse);
   rpc DeployContract(DeployContractRequest) returns (DeployContractResponse);
-}
+ }
 
 // Account
 message AccountState {
@@ -391,18 +391,13 @@ message EVMCallResponse{
   string hash = 1;
 }
 
-enum ConstructorArgs{
-  STRING_ARG=0;
-  ARRAY_ARG=1;
-  NUMBER_ARG=2;
-}
-
 message DeployContractRequest{
   string url = 1;
   string signing_key = 2;
-  optional ConstructorArgs constructor_args = 3;
+  repeated string constructor_args = 3;
 }
 
 message DeployContractResponse{
   string address = 1;
 }
+
