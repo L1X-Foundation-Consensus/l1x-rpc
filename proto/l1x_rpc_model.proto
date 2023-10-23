@@ -394,7 +394,8 @@ message EVMCallResponse{
 message DeployContractRequest{
   string url = 1;
   string signing_key = 2;
-  map<string, string> constructor_args = 3;
+  optional string group_type = 3;
+  map<string, string> constructor_args = 4;
 }
 
 
