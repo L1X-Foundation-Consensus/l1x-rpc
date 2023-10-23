@@ -394,12 +394,9 @@ message EVMCallResponse{
 message DeployContractRequest{
   string url = 1;
   string signing_key = 2;
-  message constructor_args {
-    optional string param_type = 1;
-    optional string param_value = 2;
-    optional uint64 param_num = 3;
-  }
+  map<string, string> constructor_args = 3;
 }
+
 
 message DeployContractResponse{
   string address = 1;
