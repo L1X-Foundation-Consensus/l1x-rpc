@@ -395,7 +395,7 @@ message DeployContractRequest{
   string url = 1;
   string signing_key = 2;
   optional string group_type = 3;
-  map<string, string> constructor_args = 4;
+  repeated string constructor_args = 4;
 }
 
 
