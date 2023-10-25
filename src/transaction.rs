@@ -2,6 +2,13 @@ use crate::primitives::*;
 use anyhow::{anyhow, Error};
 use serde::{Deserialize, Serialize};
 
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct OrderedMap {
+    pub key: String,
+    pub value: String,
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[repr(i8)]
 pub enum AccessType {
