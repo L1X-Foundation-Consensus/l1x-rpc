@@ -65,6 +65,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 		.type_attribute("SignedEVMCallResponse", SERDE_ANNOTATION)
 		.type_attribute("EVMCallRequest", SERDE_ANNOTATION)
 		.type_attribute("EVMCallResponse", SERDE_ANNOTATION)
+		.type_attribute("OrderedMap", SERDE_ANNOTATION)		
 		.type_attribute("DeployContractRequest", SERDE_ANNOTATION)
 		.type_attribute("DeployContractResponse", SERDE_ANNOTATION)
 		.protoc_arg("--experimental_allow_proto3_optional");
