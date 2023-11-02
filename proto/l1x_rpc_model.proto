@@ -4,16 +4,11 @@ package rpc_model;
 
 
 service Node {
-  // P1
   rpc GetAccountState (GetAccountStateRequest) returns (GetAccountStateResponse);
   rpc SubmitTransaction (SubmitTransactionRequest) returns (SubmitTransactionResponse);
   rpc GetTransactionReceipt (GetTransactionReceiptRequest) returns (GetTransactionReceiptResponse);
   rpc GetTransactionsByAccount (GetTransactionsByAccountRequest) returns (GetTransactionsByAccountResponse);
-
-  // P2
   rpc SmartContractReadOnlyCall(SmartContractReadOnlyCallRequest) returns (SmartContractReadOnlyCallResponse);
-
-  // P3
   rpc GetChainState (GetChainStateRequest) returns (GetChainStateResponse);
   rpc GetBlockByNumber (GetBlockByNumberRequest) returns (GetBlockByNumberResponse);
   // rpc GetLatestBlockHeaders (GetLatestBlockHeadersRequest) returns (GetLatestBlockHeadersResponse);
@@ -132,7 +127,6 @@ enum TransactionStatus {
   TRANSACTION_STATUS_FAILED = 1;
 }
 
-// Used when submitting a transaction
 message Transaction {
   TransactionType tx_type = 1;
   oneof transaction {
@@ -143,8 +137,13 @@ message Transaction {
     Stake stake = 6;
     UnStake unstake = 7;
   }
+  string nonce = 8;
+  string fee_limit = 9;
+  bytes signature = 10;
+  bytes verifying_key = 11;
 }
 
+// Used when submitting a transaction
 message SubmitTransactionRequest {
   string nonce = 1;
   oneof transaction_type {
