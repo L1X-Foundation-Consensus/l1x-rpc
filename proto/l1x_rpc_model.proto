@@ -15,7 +15,7 @@ service Node {
   // rpc GetLatestTransactions (GetLatestTransactionsRequest) returns (GetLatestTransactionsResponse);
   rpc GetStake(GetStakeRequest) returns (GetStakeResponse);
   rpc GetCurrentNonce(GetCurrentNonceRequest) returns (GetCurrentNonceResponse);
-  rpc BidirectionalStreaming (stream GetEventsRequest) returns (stream GetEventsResponse);
+  rpc GetEvents(stream GetEventsRequest) returns (stream GetEventsResponse);
 }
 
 // Account
