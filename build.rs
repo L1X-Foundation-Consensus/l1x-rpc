@@ -52,6 +52,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 		.type_attribute("GetStakeRequest", SERDE_ANNOTATION)
 		.type_attribute("GetStakeResponse", SERDE_ANNOTATION)
 		.protoc_arg("--experimental_allow_proto3_optional");
+	// Access OUT_DIR at runtime
+	let out_dir = std::env::var("OUT_DIR")?;
+	config.out_dir(&out_dir);
 	tonic_build::configure().compile_with_config(config, &["l1x_rpc_model.proto"], &["proto"])?;
 
 	Ok(())

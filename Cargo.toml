@@ -6,26 +6,27 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-k256 = "0.13.1"
+k256 = "0.13.2"
 anyhow = "1.0.71"
 hex = "0.4.3"
-log = "0.4.18"
-tonic = "0.9.2"
-prost = "0.11.9"
-prost-types = "0.11.9"
-reqwest = { version = "0.11", features = ["json"] }
+log = "0.4.20"
+tonic = "0.10.2"
+prost = "0.12.2"
+prost-types = "0.12.2"
+
+reqwest = { version = "0.11.22", features = ["json"] }
 secp256k1 = { version = "0.27.0", features = [
     "bitcoin_hashes",
     "global-context",
 ] }
-serde = { version = "1.0.163", features = ["derive"] }
-serde_json = "1.0.96"
-serde_bytes = "0.11.9"
-sha2 = "0.10.6"
+serde = { version = "1.0.192", features = ["derive"] }
+serde_json = "1.0.108"
+serde_bytes = "0.11.12"
+sha2 = "0.10.8"
 sha3 = "0.10.8"
 # system = { package = 'system', path = '../system', default-features = false }
 # primitives = { package = 'primitives', path = '../primitives', default-features = false }
 
 [build-dependencies]
-tonic-build = "0.9.2"
-prost-build = "0.11.9"
+tonic-build = "0.10.2"
+prost-build = "0.12.2"
