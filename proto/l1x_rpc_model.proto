@@ -5,7 +5,7 @@ package rpc_model;
 
 service Node {
   rpc GetAccountState (GetAccountStateRequest) returns (GetAccountStateResponse);
-  rpc SubmitTransaction (SubmitTransactionRequest) returns (SubmitTransactionResponse);
+  rpc SubmitTransaction (stream SubmitTransactionRequest) returns (stream SubmitTransactionResponse);
   rpc GetTransactionReceipt (GetTransactionReceiptRequest) returns (GetTransactionReceiptResponse);
   rpc GetTransactionsByAccount (GetTransactionsByAccountRequest) returns (GetTransactionsByAccountResponse);
   rpc SmartContractReadOnlyCall(SmartContractReadOnlyCallRequest) returns (SmartContractReadOnlyCallResponse);
@@ -15,7 +15,7 @@ service Node {
   // rpc GetLatestTransactions (GetLatestTransactionsRequest) returns (GetLatestTransactionsResponse);
   rpc GetStake(GetStakeRequest) returns (GetStakeResponse);
   rpc GetCurrentNonce(GetCurrentNonceRequest) returns (GetCurrentNonceResponse);
-  rpc GetEvents(GetEventsRequest) returns (GetEventsResponse);
+  rpc GetEvents(stream GetEventsRequest) returns (stream GetEventsResponse);
 }
 
 // Account
