@@ -5,7 +5,7 @@ package rpc_model;
 
 service Node {
   rpc GetAccountState (GetAccountStateRequest) returns (GetAccountStateResponse);
-  rpc SubmitTransaction (stream SubmitTransactionRequest) returns (stream SubmitTransactionResponse);
+  rpc SubmitTransaction (SubmitTransactionRequest) returns (stream SubmitTransactionResponse);
   rpc GetTransactionReceipt (GetTransactionReceiptRequest) returns (GetTransactionReceiptResponse);
   rpc GetTransactionsByAccount (GetTransactionsByAccountRequest) returns (GetTransactionsByAccountResponse);
   rpc SmartContractReadOnlyCall(SmartContractReadOnlyCallRequest) returns (SmartContractReadOnlyCallResponse);
