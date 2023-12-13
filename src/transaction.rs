@@ -71,6 +71,7 @@ pub enum TransactionType {
 		contract_instance_address: Address,
 		function: ContractFunction,
 		arguments: ContractArgument,
+		value: Balance,
 	},
 	CreateStakingPool {
 		contract_instance_address: Option<Address>,
