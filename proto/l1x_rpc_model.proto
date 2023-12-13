@@ -62,6 +62,7 @@ message SmartContractFunctionCall {
   bytes contract_address = 1;
   bytes function_name = 2;
   bytes arguments = 3;
+  uint64 value = 4;
 }
 
 message CreateStakingPool {
