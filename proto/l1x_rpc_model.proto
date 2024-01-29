@@ -184,7 +184,7 @@ message GetTransactionsByAccountRequest {
 }
 
 message GetTransactionsByAccountResponse {
-  repeated GetTransactionReceiptResponse transactions = 1;
+  repeated TransactionResponse transactions = 1;
 }
 
 // Chain state
