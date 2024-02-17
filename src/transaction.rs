@@ -100,4 +100,5 @@ pub struct TXSignPayload {
 	pub nonce: Nonce,
 	pub transaction_type: TransactionType,
 	pub fee_limit: Balance,
+	pub gas_price: Balance,
 }
