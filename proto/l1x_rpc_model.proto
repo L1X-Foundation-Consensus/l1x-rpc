@@ -139,6 +139,7 @@ message Transaction {
   }
   string nonce = 8;
   string fee_limit = 9;
+  string gas_price = 12;
   bytes signature = 10;
   bytes verifying_key = 11;
 }
