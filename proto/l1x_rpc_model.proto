@@ -159,6 +159,7 @@ message SubmitTransactionRequest {
     UnStake unstake = 11;
   }
   string fee_limit = 12;
+  string gas_price = 15;
   bytes signature = 13;
   bytes verifying_key = 14;
 }
