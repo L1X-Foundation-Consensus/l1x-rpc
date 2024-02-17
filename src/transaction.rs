@@ -50,6 +50,7 @@ pub struct Transaction {
 	pub nonce: Nonce,
 	pub transaction_type: TransactionType,
 	pub fee_limit: Balance,
+	pub gas_price: Balance,
 	#[serde(with = "serde_bytes")]
 	pub signature: SignatureBytes,
 	#[serde(with = "serde_bytes")]
