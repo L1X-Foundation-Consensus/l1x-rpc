@@ -16,6 +16,8 @@ service Node {
   rpc GetStake(GetStakeRequest) returns (GetStakeResponse);
   rpc GetCurrentNonce(GetCurrentNonceRequest) returns (GetCurrentNonceResponse);
   rpc GetEvents(GetEventsRequest) returns (stream GetEventsResponse);
+  rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse);
+  rpc ImportAccount(ImportAccountRequest) returns (ImportAccountResponse);
 }
 
 // Account
@@ -185,7 +187,7 @@ message GetTransactionsByAccountRequest {
 }
 
 message GetTransactionsByAccountResponse {
-  repeated GetTransactionReceiptResponse transactions = 1;
+  repeated TransactionResponse transactions = 1;
 }
 
 // Chain state
@@ -288,4 +290,31 @@ message GetStakeRequest {
 
 message GetStakeResponse {
   string amount = 1;
+}
+
+//Create Account
+message Account{
+  string private_key = 1;
+  string public_key = 2;
+  string address = 3;
+}
+
+message CreateAccountRequest{
+  string password = 1;
+  string keystore_path = 2;
+}
+
+message CreateAccountResponse{
+  Account account = 1;
+}
+
+//Import Account
+message ImportAccountRequest{
+  string password = 1;
+  string private_key = 2;
+  string keystore_path = 3;
+}
+
+message ImportAccountResponse{
+  Account account = 1;
 }

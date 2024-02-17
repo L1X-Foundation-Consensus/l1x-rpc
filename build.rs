@@ -51,6 +51,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 		.type_attribute("SmartContractReadOnlyCallResponse", SERDE_ANNOTATION)
 		.type_attribute("GetStakeRequest", SERDE_ANNOTATION)
 		.type_attribute("GetStakeResponse", SERDE_ANNOTATION)
+		.type_attribute("Account", SERDE_ANNOTATION)
+		.type_attribute("CreateAccountRequest", SERDE_ANNOTATION)
+		.type_attribute("CreateAccountResponse", SERDE_ANNOTATION)
+		.type_attribute("ImportAccountRequest", SERDE_ANNOTATION)
+		.type_attribute("ImportAccountResponse", SERDE_ANNOTATION)
 		.protoc_arg("--experimental_allow_proto3_optional");
 	tonic_build::configure().compile_with_config(config, &["l1x_rpc_model.proto"], &["proto"])?;
 
