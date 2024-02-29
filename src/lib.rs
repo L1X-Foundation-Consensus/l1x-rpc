@@ -49,13 +49,14 @@ pub mod rpc_model {
 					arguments,
 				),
 				submit_transaction_request::TransactionType::SmartContractFunctionCall(
-					SmartContractFunctionCall { contract_address, function_name, arguments },
+					SmartContractFunctionCall { contract_address, function_name, arguments, contract_type },
 				) => super::transaction::TransactionType::SmartContractFunctionCall {
 					contract_instance_address: contract_address
 						.try_into()
 						.map_err(|_| anyhow!("Failed to convert contract_address bytes"))?,
 					function: function_name,
 					arguments,
+					contract_type: contract_type.try_into()?,
 				},
 				submit_transaction_request::TransactionType::CreateStakingPool(
 					CreateStakingPool {
@@ -139,13 +140,14 @@ pub mod rpc_model {
 					arguments,
 				),
 				transaction::Transaction::SmartContractFunctionCall(
-					SmartContractFunctionCall { contract_address, function_name, arguments },
+					SmartContractFunctionCall { contract_address, function_name, arguments, contract_type },
 				) => super::transaction::TransactionType::SmartContractFunctionCall {
 					contract_instance_address: contract_address
 						.try_into()
 						.map_err(|_| anyhow!("Failed to convert contract_address bytes"))?,
 					function: function_name,
 					arguments,
+					contract_type: contract_type.try_into()?,
 				},
 				/* TODO: fix this
 				transaction::Transaction::CreateStakingPool(CreateStakingPool {
