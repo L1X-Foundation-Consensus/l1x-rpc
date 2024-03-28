@@ -10,6 +10,8 @@ service Node {
   rpc GetTransactionsByAccount (GetTransactionsByAccountRequest) returns (GetTransactionsByAccountResponse);
   rpc SmartContractReadOnlyCall(SmartContractReadOnlyCallRequest) returns (SmartContractReadOnlyCallResponse);
   rpc GetChainState (GetChainStateRequest) returns (GetChainStateResponse);
+  rpc GetLatestBlocks (GetLatestBlocksRequest) returns (GetLatestBlocksResponse);
+  rpc GetLatestSnapshot (GetLatestSnapshotRequest) returns (GetLatestSnapshotResponse);
   rpc GetBlockByNumber (GetBlockByNumberRequest) returns (GetBlockByNumberResponse);
   // rpc GetLatestBlockHeaders (GetLatestBlockHeadersRequest) returns (GetLatestBlockHeadersResponse);
   // rpc GetLatestTransactions (GetLatestTransactionsRequest) returns (GetLatestTransactionsResponse);
@@ -197,6 +199,27 @@ message GetChainStateResponse {
   string cluster_address = 1;
   string head_block_number = 2;
   string head_block_hash = 3;
+}
+
+// Chain state
+message GetLatestBlocksRequest {
+}
+
+message GetLatestBlocksResponse {
+  string cluster_address = 1;
+  string head_block_number = 2;
+  string head_block_hash = 3;
+  string last_executed_block = 4;
+}
+
+// Chain state
+message GetLatestSnapshotRequest {
+}
+
+message GetLatestSnapshotResponse {
+  uint32 version = 1;
+  string format = 2;
+  bytes data = 3;
 }
 
 // Block
