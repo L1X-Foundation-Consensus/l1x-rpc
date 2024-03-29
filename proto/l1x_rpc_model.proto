@@ -11,7 +11,8 @@ service Node {
   rpc SmartContractReadOnlyCall(SmartContractReadOnlyCallRequest) returns (SmartContractReadOnlyCallResponse);
   rpc GetChainState (GetChainStateRequest) returns (GetChainStateResponse);
   rpc GetLatestBlocks (GetLatestBlocksRequest) returns (GetLatestBlocksResponse);
-  rpc GetLatestSnapshot (GetLatestSnapshotRequest) returns (GetLatestSnapshotResponse);
+  rpc GetLatestSnapshot (GetLatestSnapshotRequest) returns (stream GetLatestSnapshotResponse);
+  rpc GetSnapshotRange (GetSnapshotRangeRequest) returns (GetSnapshotRangeResponse);
   rpc GetBlockByNumber (GetBlockByNumberRequest) returns (GetBlockByNumberResponse);
   // rpc GetLatestBlockHeaders (GetLatestBlockHeadersRequest) returns (GetLatestBlockHeadersResponse);
   // rpc GetLatestTransactions (GetLatestTransactionsRequest) returns (GetLatestTransactionsResponse);
@@ -220,6 +221,14 @@ message GetLatestSnapshotResponse {
   uint32 version = 1;
   string format = 2;
   bytes data = 3;
+}
+
+// Chain state
+message GetSnapshotRangeRequest {
+}
+
+message GetSnapshotRangeResponse {
+  string highest_block = 1;
 }
 
 // Block
