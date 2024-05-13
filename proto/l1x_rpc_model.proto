@@ -6,6 +6,7 @@ package rpc_model;
 service Node {
   rpc GetAccountState (GetAccountStateRequest) returns (GetAccountStateResponse);
   rpc SubmitTransaction (SubmitTransactionRequest) returns (stream SubmitTransactionResponse);
+  rpc EstimateGas (SubmitTransactionRequest) returns (EstimateGasResponse);
   rpc GetTransactionReceipt (GetTransactionReceiptRequest) returns (GetTransactionReceiptResponse);
   rpc GetTransactionsByAccount (GetTransactionsByAccountRequest) returns (GetTransactionsByAccountResponse);
   rpc SmartContractReadOnlyCall(SmartContractReadOnlyCallRequest) returns (SmartContractReadOnlyCallResponse);
@@ -169,6 +170,11 @@ message SubmitTransactionResponse {
   string hash = 1;
   optional string contract_address = 2; // deployed or instantiated contract address
 }
+
+message EstimateGasResponse {
+  uint64 gas =1;
+}
+
 
 // Transaction receipt
 message GetTransactionReceiptRequest {
