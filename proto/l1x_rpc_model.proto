@@ -10,17 +10,12 @@ service Node {
   rpc GetTransactionsByAccount (GetTransactionsByAccountRequest) returns (GetTransactionsByAccountResponse);
   rpc SmartContractReadOnlyCall(SmartContractReadOnlyCallRequest) returns (SmartContractReadOnlyCallResponse);
   rpc GetChainState (GetChainStateRequest) returns (GetChainStateResponse);
-  rpc GetLatestBlocks (GetLatestBlocksRequest) returns (GetLatestBlocksResponse);
-  rpc GetLatestSnapshot (GetLatestSnapshotRequest) returns (stream GetLatestSnapshotResponse);
-  rpc GetSnapshotRange (GetSnapshotRangeRequest) returns (GetSnapshotRangeResponse);
   rpc GetBlockByNumber (GetBlockByNumberRequest) returns (GetBlockByNumberResponse);
   // rpc GetLatestBlockHeaders (GetLatestBlockHeadersRequest) returns (GetLatestBlockHeadersResponse);
   // rpc GetLatestTransactions (GetLatestTransactionsRequest) returns (GetLatestTransactionsResponse);
   rpc GetStake(GetStakeRequest) returns (GetStakeResponse);
   rpc GetCurrentNonce(GetCurrentNonceRequest) returns (GetCurrentNonceResponse);
   rpc GetEvents(GetEventsRequest) returns (stream GetEventsResponse);
-  rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse);
-  rpc ImportAccount(ImportAccountRequest) returns (ImportAccountResponse);
 }
 
 // Account
@@ -189,7 +184,7 @@ message GetTransactionsByAccountRequest {
 }
 
 message GetTransactionsByAccountResponse {
-  repeated TransactionResponse transactions = 1;
+  repeated GetTransactionReceiptResponse transactions = 1;
 }
 
 // Chain state
@@ -202,38 +197,6 @@ message GetChainStateResponse {
   string head_block_hash = 3;
 }
 
-// Latest block request used by node syncing process
-message GetLatestBlocksRequest {
-}
-
-// Latest blocks response used by node syncing process
-message GetLatestBlocksResponse {
-  string cluster_address = 1;
-  string head_block_number = 2;
-  string head_block_hash = 3;
-  string last_executed_block = 4;
-}
-
-// Snapshot request used by full_node while syncing snapshot
-message GetLatestSnapshotRequest {
-}
-
-// Snapshot available in archive node
-message GetLatestSnapshotResponse {
-  uint32 version = 1;
-  string format = 2;
-  bytes data = 3;
-}
-
-// Snapshot block range available in archive node
-message GetSnapshotRangeRequest {
-}
-
-// Snapshot's block height(highest block stored by snapshot) available in archive node
-message GetSnapshotRangeResponse {
-  string highest_block = 1;
-}
-
 // Block
 message Block {
   string number = 1;
@@ -243,6 +206,7 @@ message Block {
   repeated TransactionResponse transactions = 5;
   BlockType block_type = 6;
   string cluster_address = 7;
+  string epoch = 8;
 }
 
 message BlockHeader {
@@ -252,7 +216,7 @@ message BlockHeader {
   uint64 timestamp = 4;
   BlockType block_type = 5;
   string cluster_address = 6;
-  uint32 num_transactions = 7;
+  string epoch = 7;
 }
 
 enum BlockType {
@@ -326,29 +290,7 @@ message GetStakeResponse {
   string amount = 1;
 }
 
-//Create Account
-message Account{
-  string private_key = 1;
-  string public_key = 2;
-  string address = 3;
-}
-
-message CreateAccountRequest{
-  string password = 1;
-  string keystore_path = 2;
-}
-
-message CreateAccountResponse{
-  Account account = 1;
-}
-
-//Import Account
-message ImportAccountRequest{
-  string password = 1;
-  string private_key = 2;
-  string keystore_path = 3;
-}
-
-message ImportAccountResponse{
-  Account account = 1;
+// Get node info
+message NodeInfoRequest {
+  string address = 1;
 }
