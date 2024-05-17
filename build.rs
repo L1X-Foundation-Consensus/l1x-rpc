@@ -29,17 +29,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 		.field_attribute("SubmitTransactionRequest.signature", BYTES_ANNOTATION)
 		.field_attribute("SubmitTransactionRequest.verifying_key", BYTES_ANNOTATION)
 		.type_attribute("SubmitTransactionRequest", SERDE_ANNOTATION)
-
-		.type_attribute("EstimateGasRequest.transaction_type", SERDE_ANNOTATION)
-		.field_attribute("EstimateGasRequest.signature", BYTES_ANNOTATION)
-		.field_attribute("EstimateGasRequest.verifying_key", BYTES_ANNOTATION)
-		.type_attribute("EstimateGasRequest", SERDE_ANNOTATION)
-
-
 		.type_attribute("SubmitTransactionResponse", SERDE_ANNOTATION)
-
-		.type_attribute("EstimateGasResponse", SERDE_ANNOTATION)
-
+		.type_attribute("GetPriceResponse", SERDE_ANNOTATION)
 		.type_attribute("GetTransactionReceiptRequest", SERDE_ANNOTATION)
 		.type_attribute("GetTransactionReceiptResponse", SERDE_ANNOTATION)
 		.type_attribute("GetTransactionsByAccountRequest", SERDE_ANNOTATION)
