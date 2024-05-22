@@ -172,7 +172,7 @@ message SubmitTransactionResponse {
 }
 
 message GetPriceResponse {
-  uint64 gas =1;
+  uint64 fee =1;
 }
 
 
