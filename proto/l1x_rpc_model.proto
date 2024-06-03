@@ -218,9 +218,11 @@ message BlockHeader {
   uint64 timestamp = 4;
   BlockType block_type = 5;
   string cluster_address = 6;
-  string epoch = 7;
-  string state_hash = 8;
-  string block_version = 9;
+  uint32 num_transactions = 7;
+  string epoch = 8;
+  string state_hash = 9;
+  string block_version = 10;
+  
 }
 
 enum BlockType {
