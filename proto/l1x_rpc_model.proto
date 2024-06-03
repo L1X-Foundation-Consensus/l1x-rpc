@@ -243,6 +243,8 @@ message Block {
   repeated TransactionResponse transactions = 5;
   BlockType block_type = 6;
   string cluster_address = 7;
+  string state_hash = 8;
+  string block_version = 9;
 }
 
 message BlockHeader {
@@ -253,6 +255,8 @@ message BlockHeader {
   BlockType block_type = 5;
   string cluster_address = 6;
   uint32 num_transactions = 7;
+  string state_hash = 8;
+  string block_version = 9;
 }
 
 enum BlockType {
