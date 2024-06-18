@@ -57,6 +57,19 @@ pub struct Transaction {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct TransactionV2 {
+	pub nonce: Nonce,
+	pub transaction_type: TransactionType,
+	pub fee_limit: Balance,
+	#[serde(with = "serde_bytes")]
+	pub signature: SignatureBytes,
+	#[serde(with = "serde_bytes")]
+	pub verifying_key: VerifyingKeyBytes,
+	#[serde(with = "serde_bytes")]
+	pub eth_original_transaction: Option<Vec<u8>>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum TransactionType {
 	NativeTokenTransfer(Address, Balance),
 	SmartContractDeployment {
