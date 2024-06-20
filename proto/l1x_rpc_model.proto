@@ -13,6 +13,7 @@ service Node {
   rpc GetLatestBlocks (GetLatestBlocksRequest) returns (GetLatestBlocksResponse);
   rpc GetLatestSnapshot (GetLatestSnapshotRequest) returns (stream GetLatestSnapshotResponse);
   rpc GetSnapshotRange (GetSnapshotRangeRequest) returns (GetSnapshotRangeResponse);
+  rpc GetProtocolVersion (GetProtocolVersionRequest) returns (GetProtocolVersionResponse);
   rpc GetBlockByNumber (GetBlockByNumberRequest) returns (GetBlockByNumberResponse);
   // rpc GetLatestBlockHeaders (GetLatestBlockHeadersRequest) returns (GetLatestBlockHeadersResponse);
   // rpc GetLatestTransactions (GetLatestTransactionsRequest) returns (GetLatestTransactionsResponse);
@@ -103,6 +104,15 @@ message GetEventsRequest {
 
 message GetEventsResponse {
   repeated bytes events_data = 1;
+}
+
+// Protocol version request
+message GetProtocolVersionRequest {
+}
+
+// Protocol version response
+message GetProtocolVersionResponse {
+  uint32 protocol_version = 1;
 }
 
 enum TransactionType {
