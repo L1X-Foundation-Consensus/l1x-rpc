@@ -16,6 +16,7 @@ service Node {
   rpc GetBlockByNumber (GetBlockByNumberRequest) returns (GetBlockByNumberResponse);
   rpc GetBlockV2ByNumber (GetBlockByNumberRequest) returns (GetBlockV2ByNumberResponse);
   // rpc GetLatestBlockHeaders (GetLatestBlockHeadersRequest) returns (GetLatestBlockHeadersResponse);
+  // rpc GetLatestBlockHeadersV2 (GetLatestBlockHeadersRequestV2) returns (GetLatestBlockHeadersResponseV2);
   // rpc GetLatestTransactions (GetLatestTransactionsRequest) returns (GetLatestTransactionsResponse);
   rpc GetStake(GetStakeRequest) returns (GetStakeResponse);
   rpc GetCurrentNonce(GetCurrentNonceRequest) returns (GetCurrentNonceResponse);
@@ -284,6 +285,18 @@ message BlockHeader {
   uint32 num_transactions = 7;
 }
 
+message BlockHeaderV2 {
+  uint64 block_number = 1;
+  string block_hash = 2;
+  string parent_hash = 3;
+  uint64 timestamp = 4;
+  BlockType block_type = 5;
+  string cluster_address = 6;
+  uint32 num_transactions = 7;
+  string state_hash = 8;
+  string block_version = 9;
+}
+
 enum BlockType {
   BLOCK_TYPE_UNSPECIFIED = 0;
   BLOCK_TYPE_L1X_TOKEN_BLOCK = 1;
@@ -311,6 +324,16 @@ message GetLatestBlockHeadersRequest {
 message GetLatestBlockHeadersResponse {
   uint32 page_number = 1;
   repeated BlockHeader page = 2;
+}
+
+message GetLatestBlockHeadersRequestV2 {
+  uint32 number_of_blocks = 1;
+  uint32 blocks_per_page = 2;
+}
+
+message GetLatestBlockHeadersResponseV2 {
+  uint32 page_number = 1;
+  repeated BlockHeaderV2 page = 2;
 }
 
 message GetLatestTransactionsRequest {
