@@ -52,6 +52,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 		.type_attribute("GetLatestTransactionsResponse", SERDE_ANNOTATION)
 		.type_attribute("TransactionResponse", SERDE_ANNOTATION)
 		.type_attribute("BlockHeader", SERDE_ANNOTATION)
+		.type_attribute("BlockHeaderV2", SERDE_ANNOTATION)
 		.type_attribute("SmartContractReadOnlyCallStatus", SERDE_ANNOTATION)
 		.type_attribute("SmartContractReadOnlyCallRequest", SERDE_ANNOTATION)
 		.type_attribute("SmartContractReadOnlyCallResponse", SERDE_ANNOTATION)
