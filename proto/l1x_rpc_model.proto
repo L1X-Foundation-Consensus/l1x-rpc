@@ -15,6 +15,7 @@ service Node {
   rpc GetSnapshotRange (GetSnapshotRangeRequest) returns (GetSnapshotRangeResponse);
   rpc GetBlockByNumber (GetBlockByNumberRequest) returns (GetBlockByNumberResponse);
   rpc GetBlockV2ByNumber (GetBlockByNumberRequest) returns (GetBlockV2ByNumberResponse);
+  rpc GetBlockV3ByNumber (GetBlockByNumberRequest) returns (GetBlockV3ByNumberResponse);
   // rpc GetLatestBlockHeaders (GetLatestBlockHeadersRequest) returns (GetLatestBlockHeadersResponse);
   // rpc GetLatestBlockHeadersV2 (GetLatestBlockHeadersRequestV2) returns (GetLatestBlockHeadersResponseV2);
   // rpc GetLatestTransactions (GetLatestTransactionsRequest) returns (GetLatestTransactionsResponse);
@@ -273,10 +274,19 @@ message BlockV2 {
   repeated TransactionV2Response transactions = 5;
   BlockType block_type = 6;
   string cluster_address = 7;
+}
+
+message BlockV3 {
+  string number = 1;
+  string hash = 2;
+  string parent_hash = 3;
+  uint64 timestamp = 4;
+  repeated TransactionV2Response transactions = 5;
+  BlockType block_type = 6;
+  string cluster_address = 7;
   string state_hash = 8;
   string block_version = 9;
 }
-
 
 message BlockHeader {
   uint64 block_number = 1;
@@ -317,6 +327,10 @@ message GetBlockByNumberResponse {
 
 message GetBlockV2ByNumberResponse {
   BlockV2 block = 1;
+}
+
+message GetBlockV3ByNumberResponse {
+  BlockV3 block = 1;
 }
 
 message GetLatestBlockHeadersRequest {
