@@ -44,6 +44,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 		.type_attribute("GetLatestSnapshotResponse", SERDE_ANNOTATION)
 		.type_attribute("GetSnapshotRangeRequest", SERDE_ANNOTATION)
 		.type_attribute("GetSnapshotRangeResponse", SERDE_ANNOTATION)
+		.type_attribute("GetProtocolVersionRequest", SERDE_ANNOTATION)
+		.type_attribute("GetProtocolVersionResponse", SERDE_ANNOTATION)
 		.type_attribute("Block", SERDE_ANNOTATION)
 		.type_attribute("BlockV2", SERDE_ANNOTATION)
 		.type_attribute("BlockType", SERDE_ANNOTATION)
