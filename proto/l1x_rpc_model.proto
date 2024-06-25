@@ -16,7 +16,9 @@ service Node {
   rpc GetProtocolVersion (GetProtocolVersionRequest) returns (GetProtocolVersionResponse);
   rpc GetBlockByNumber (GetBlockByNumberRequest) returns (GetBlockByNumberResponse);
   rpc GetBlockV2ByNumber (GetBlockByNumberRequest) returns (GetBlockV2ByNumberResponse);
+  rpc GetBlockV3ByNumber (GetBlockByNumberRequest) returns (GetBlockV3ByNumberResponse);
   // rpc GetLatestBlockHeaders (GetLatestBlockHeadersRequest) returns (GetLatestBlockHeadersResponse);
+  // rpc GetLatestBlockHeadersV2 (GetLatestBlockHeadersRequestV2) returns (GetLatestBlockHeadersResponseV2);
   // rpc GetLatestTransactions (GetLatestTransactionsRequest) returns (GetLatestTransactionsResponse);
   rpc GetStake(GetStakeRequest) returns (GetStakeResponse);
   rpc GetCurrentNonce(GetCurrentNonceRequest) returns (GetCurrentNonceResponse);
@@ -284,6 +286,18 @@ message BlockV2 {
   string cluster_address = 7;
 }
 
+message BlockV3 {
+  string number = 1;
+  string hash = 2;
+  string parent_hash = 3;
+  uint64 timestamp = 4;
+  repeated TransactionV2Response transactions = 5;
+  BlockType block_type = 6;
+  string cluster_address = 7;
+  string state_hash = 8;
+  string block_version = 9;
+}
+
 message BlockHeader {
   uint64 block_number = 1;
   string block_hash = 2;
@@ -292,6 +306,18 @@ message BlockHeader {
   BlockType block_type = 5;
   string cluster_address = 6;
   uint32 num_transactions = 7;
+}
+
+message BlockHeaderV2 {
+  uint64 block_number = 1;
+  string block_hash = 2;
+  string parent_hash = 3;
+  uint64 timestamp = 4;
+  BlockType block_type = 5;
+  string cluster_address = 6;
+  uint32 num_transactions = 7;
+  string state_hash = 8;
+  string block_version = 9;
 }
 
 enum BlockType {
@@ -313,6 +339,10 @@ message GetBlockV2ByNumberResponse {
   BlockV2 block = 1;
 }
 
+message GetBlockV3ByNumberResponse {
+  BlockV3 block = 1;
+}
+
 message GetLatestBlockHeadersRequest {
   uint32 number_of_blocks = 1;
   uint32 blocks_per_page = 2;
@@ -321,6 +351,16 @@ message GetLatestBlockHeadersRequest {
 message GetLatestBlockHeadersResponse {
   uint32 page_number = 1;
   repeated BlockHeader page = 2;
+}
+
+message GetLatestBlockHeadersRequestV2 {
+  uint32 number_of_blocks = 1;
+  uint32 blocks_per_page = 2;
+}
+
+message GetLatestBlockHeadersResponseV2 {
+  uint32 page_number = 1;
+  repeated BlockHeaderV2 page = 2;
 }
 
 message GetLatestTransactionsRequest {
