@@ -15,6 +15,7 @@ service Node {
   rpc GetLatestSnapshot (GetLatestSnapshotRequest) returns (stream GetLatestSnapshotResponse);
   rpc GetSnapshotRange (GetSnapshotRangeRequest) returns (GetSnapshotRangeResponse);
   rpc GetBlockByNumber (GetBlockByNumberRequest) returns (GetBlockByNumberResponse);
+  rpc GetBlockV2ByNumber (GetBlockByNumberRequest) returns (GetBlockV2ByNumberResponse);
   // rpc GetLatestBlockHeaders (GetLatestBlockHeadersRequest) returns (GetLatestBlockHeadersResponse);
   // rpc GetLatestTransactions (GetLatestTransactionsRequest) returns (GetLatestTransactionsResponse);
   rpc GetStake(GetStakeRequest) returns (GetStakeResponse);
@@ -149,6 +150,23 @@ message Transaction {
   bytes verifying_key = 11;
 }
 
+message TransactionV2 {
+  TransactionType tx_type = 1;
+  oneof transaction {
+    NativeTokenTransfer native_token_transfer = 2;
+    SmartContractDeployment smart_contract_deployment = 3;
+    SmartContractInit smart_contract_init = 4;
+    SmartContractFunctionCall smart_contract_function_call = 5;
+    Stake stake = 6;
+    UnStake unstake = 7;
+  }
+  string nonce = 8;
+  string fee_limit = 9;
+  bytes signature = 10;
+  bytes verifying_key = 11;
+  optional bytes eth_original_transaction = 12;
+}
+
 // Used when submitting a transaction
 message SubmitTransactionRequest {
   string nonce = 1;
@@ -251,6 +269,17 @@ message Block {
   string cluster_address = 7;
 }
 
+// Block
+message BlockV2 {
+  string number = 1;
+  string hash = 2;
+  string parent_hash = 3;
+  uint64 timestamp = 4;
+  repeated TransactionV2Response transactions = 5;
+  BlockType block_type = 6;
+  string cluster_address = 7;
+}
+
 message BlockHeader {
   uint64 block_number = 1;
   string block_hash = 2;
@@ -276,6 +305,10 @@ message GetBlockByNumberResponse {
   Block block = 1;
 }
 
+message GetBlockV2ByNumberResponse {
+  BlockV2 block = 1;
+}
+
 message GetLatestBlockHeadersRequest {
   uint32 number_of_blocks = 1;
   uint32 blocks_per_page = 2;
@@ -298,6 +331,16 @@ message GetLatestTransactionsResponse {
 
 message TransactionResponse {
   Transaction transaction = 1;
+  bytes from = 2; // Potential "to" address is inside transaction if tx is of a type that has a "to" address
+  bytes transaction_hash = 3;
+  bytes block_hash = 4;
+  int64 block_number = 5;
+  string fee_used = 6;
+  uint64 timestamp = 7;
+}
+
+message TransactionV2Response {
+  TransactionV2 transaction = 1;
   bytes from = 2; // Potential "to" address is inside transaction if tx is of a type that has a "to" address
   bytes transaction_hash = 3;
   bytes block_hash = 4;
