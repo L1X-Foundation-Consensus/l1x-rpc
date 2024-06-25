@@ -17,9 +17,6 @@ service Node {
   rpc GetBlockByNumber (GetBlockByNumberRequest) returns (GetBlockByNumberResponse);
   rpc GetBlockV2ByNumber (GetBlockByNumberRequest) returns (GetBlockV2ByNumberResponse);
   rpc GetBlockV3ByNumber (GetBlockByNumberRequest) returns (GetBlockV3ByNumberResponse);
-  // rpc GetLatestBlockHeaders (GetLatestBlockHeadersRequest) returns (GetLatestBlockHeadersResponse);
-  // rpc GetLatestBlockHeadersV2 (GetLatestBlockHeadersRequestV2) returns (GetLatestBlockHeadersResponseV2);
-  // rpc GetLatestTransactions (GetLatestTransactionsRequest) returns (GetLatestTransactionsResponse);
   rpc GetStake(GetStakeRequest) returns (GetStakeResponse);
   rpc GetCurrentNonce(GetCurrentNonceRequest) returns (GetCurrentNonceResponse);
   rpc GetEvents(GetEventsRequest) returns (stream GetEventsResponse);
@@ -308,7 +305,7 @@ message BlockHeader {
   uint32 num_transactions = 7;
 }
 
-message BlockHeaderV2 {
+message BlockHeaderV3 {
   uint64 block_number = 1;
   string block_hash = 2;
   string parent_hash = 3;
@@ -353,14 +350,14 @@ message GetLatestBlockHeadersResponse {
   repeated BlockHeader page = 2;
 }
 
-message GetLatestBlockHeadersRequestV2 {
+message GetLatestBlockHeadersRequestV3 {
   uint32 number_of_blocks = 1;
   uint32 blocks_per_page = 2;
 }
 
-message GetLatestBlockHeadersResponseV2 {
+message GetLatestBlockHeadersResponseV3 {
   uint32 page_number = 1;
-  repeated BlockHeaderV2 page = 2;
+  repeated BlockHeaderV3 page = 2;
 }
 
 message GetLatestTransactionsRequest {
