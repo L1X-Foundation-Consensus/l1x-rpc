@@ -14,10 +14,10 @@ service Node {
   rpc GetLatestBlocks (GetLatestBlocksRequest) returns (GetLatestBlocksResponse);
   rpc GetLatestSnapshot (GetLatestSnapshotRequest) returns (stream GetLatestSnapshotResponse);
   rpc GetSnapshotRange (GetSnapshotRangeRequest) returns (GetSnapshotRangeResponse);
+  rpc GetProtocolVersion (GetProtocolVersionRequest) returns (GetProtocolVersionResponse);
   rpc GetBlockByNumber (GetBlockByNumberRequest) returns (GetBlockByNumberResponse);
   rpc GetBlockV2ByNumber (GetBlockByNumberRequest) returns (GetBlockV2ByNumberResponse);
-  // rpc GetLatestBlockHeaders (GetLatestBlockHeadersRequest) returns (GetLatestBlockHeadersResponse);
-  // rpc GetLatestTransactions (GetLatestTransactionsRequest) returns (GetLatestTransactionsResponse);
+  rpc GetBlockV3ByNumber (GetBlockByNumberRequest) returns (GetBlockV3ByNumberResponse);
   rpc GetStake(GetStakeRequest) returns (GetStakeResponse);
   rpc GetCurrentNonce(GetCurrentNonceRequest) returns (GetCurrentNonceResponse);
   rpc GetEvents(GetEventsRequest) returns (stream GetEventsResponse);
@@ -105,6 +105,15 @@ message GetEventsRequest {
 
 message GetEventsResponse {
   repeated bytes events_data = 1;
+}
+
+// Protocol version request
+message GetProtocolVersionRequest {
+}
+
+// Protocol version response
+message GetProtocolVersionResponse {
+  uint32 protocol_version = 1;
 }
 
 enum TransactionType {
@@ -280,6 +289,18 @@ message BlockV2 {
   string cluster_address = 7;
 }
 
+message BlockV3 {
+  string number = 1;
+  string hash = 2;
+  string parent_hash = 3;
+  uint64 timestamp = 4;
+  repeated TransactionV2Response transactions = 5;
+  BlockType block_type = 6;
+  string cluster_address = 7;
+  string state_hash = 8;
+  string block_version = 9;
+}
+
 message BlockHeader {
   uint64 block_number = 1;
   string block_hash = 2;
@@ -288,6 +309,18 @@ message BlockHeader {
   BlockType block_type = 5;
   string cluster_address = 6;
   uint32 num_transactions = 7;
+}
+
+message BlockHeaderV3 {
+  uint64 block_number = 1;
+  string block_hash = 2;
+  string parent_hash = 3;
+  uint64 timestamp = 4;
+  BlockType block_type = 5;
+  string cluster_address = 6;
+  uint32 num_transactions = 7;
+  string state_hash = 8;
+  string block_version = 9;
 }
 
 enum BlockType {
@@ -309,6 +342,10 @@ message GetBlockV2ByNumberResponse {
   BlockV2 block = 1;
 }
 
+message GetBlockV3ByNumberResponse {
+  BlockV3 block = 1;
+}
+
 message GetLatestBlockHeadersRequest {
   uint32 number_of_blocks = 1;
   uint32 blocks_per_page = 2;
@@ -317,6 +354,16 @@ message GetLatestBlockHeadersRequest {
 message GetLatestBlockHeadersResponse {
   uint32 page_number = 1;
   repeated BlockHeader page = 2;
+}
+
+message GetLatestBlockHeadersRequestV3 {
+  uint32 number_of_blocks = 1;
+  uint32 blocks_per_page = 2;
+}
+
+message GetLatestBlockHeadersResponseV3 {
+  uint32 page_number = 1;
+  repeated BlockHeaderV3 page = 2;
 }
 
 message GetLatestTransactionsRequest {
