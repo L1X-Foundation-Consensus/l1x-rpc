@@ -32,7 +32,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 		.field_attribute("SubmitTransactionRequest.verifying_key", BYTES_ANNOTATION)
 		.type_attribute("SubmitTransactionRequest", SERDE_ANNOTATION)
 		.type_attribute("SubmitTransactionResponse", SERDE_ANNOTATION)
-		.type_attribute("GetPriceResponse", SERDE_ANNOTATION)
+		.type_attribute("EstimateFeeResponse", SERDE_ANNOTATION)
 		.type_attribute("GetTransactionReceiptRequest", SERDE_ANNOTATION)
 		.type_attribute("GetTransactionReceiptResponse", SERDE_ANNOTATION)
 		.type_attribute("GetTransactionsByAccountRequest", SERDE_ANNOTATION)

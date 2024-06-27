@@ -6,7 +6,7 @@ package rpc_model;
 service Node {
   rpc GetAccountState (GetAccountStateRequest) returns (GetAccountStateResponse);
   rpc SubmitTransaction (SubmitTransactionRequest) returns (stream SubmitTransactionResponse);
-  rpc GetPrice (SubmitTransactionRequest) returns (GetPriceResponse);
+  rpc EstimateFee (SubmitTransactionRequest) returns (EstimateFeeResponse);
   rpc GetTransactionReceipt (GetTransactionReceiptRequest) returns (GetTransactionReceiptResponse);
   rpc GetTransactionsByAccount (GetTransactionsByAccountRequest) returns (GetTransactionsByAccountResponse);
   rpc SmartContractReadOnlyCall(SmartContractReadOnlyCallRequest) returns (SmartContractReadOnlyCallResponse);
@@ -198,7 +198,7 @@ message SubmitTransactionResponse {
   optional string contract_address = 2; // deployed or instantiated contract address
 }
 
-message GetPriceResponse {
+message EstimateFeeResponse {
   uint64 fee =1;
 }
 
