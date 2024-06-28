@@ -107,6 +107,50 @@ pub enum TransactionType {
 	},
 }
 
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub enum TransactionTypeV2 {
+	NativeTokenTransfer(Address, Balance),
+	SmartContractDeployment {
+		access_type: AccessType,
+		contract_type: ContractType,
+		contract_code: ContractCode,
+		deposit: Balance,
+		salt: Salt,
+	},
+	SmartContractInit {
+		contract_code_address: Address,
+		arguments: ContractArgument,
+		deposit: Balance,
+	},
+	SmartContractFunctionCall {
+		contract_instance_address: Address,
+		function: ContractFunction,
+		arguments: ContractArgument,
+		deposit: Balance,
+	},
+	CreateStakingPool {
+		contract_instance_address: Option<Address>,
+		min_stake: Option<Balance>,
+		max_stake: Option<Balance>,
+		min_pool_balance: Option<Balance>,
+		max_pool_balance: Option<Balance>,
+		staking_period: Option<BlockNumber>,
+	},
+	Stake {
+		pool_address: Address,
+		amount: Balance,
+	},
+	UnStake {
+		pool_address: Address,
+		amount: Balance,
+	},
+	StakingPoolContract {
+		pool_address: Address,
+		contract_instance_address: Address,
+	},
+}
+
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TXSignPayload {
 	pub nonce: Nonce,
