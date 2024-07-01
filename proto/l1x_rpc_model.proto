@@ -6,6 +6,7 @@ package rpc_model;
 service Node {
   rpc GetAccountState (GetAccountStateRequest) returns (GetAccountStateResponse);
   rpc SubmitTransaction (SubmitTransactionRequest) returns (stream SubmitTransactionResponse);
+  rpc SubmitTransactionV2 (SubmitTransactionRequestV2) returns (stream SubmitTransactionResponse);
   rpc EstimateFee (EstimateFeeRequest) returns (EstimateFeeResponse);
   rpc GetTransactionReceipt (GetTransactionReceiptRequest) returns (GetTransactionReceiptResponse);
   rpc GetTransactionsByAccount (GetTransactionsByAccountRequest) returns (GetTransactionsByAccountResponse);
@@ -213,6 +214,23 @@ message SubmitTransactionRequest {
   bytes verifying_key = 14;
 }
 
+// Used when submitting a transaction
+message SubmitTransactionRequestV2 {
+  string nonce = 1;
+  oneof transaction_type {
+    NativeTokenTransfer native_token_transfer = 2;
+    SmartContractDeploymentV2 smart_contract_deployment = 3;
+    SmartContractInitV2 smart_contract_init = 4;
+    SmartContractFunctionCallV2 smart_contract_function_call = 5;
+    CreateStakingPool create_staking_pool = 9;
+    Stake stake = 10;
+    UnStake unstake = 11;
+  }
+  string fee_limit = 12;
+  bytes signature = 13;
+  bytes verifying_key = 14;
+}
+
 message SubmitTransactionResponse {
   string hash = 1;
   optional string contract_address = 2; // deployed or instantiated contract address
@@ -234,7 +252,6 @@ message EstimateFeeRequest {
 message EstimateFeeResponse {
   string fee = 1;
 }
-
 
 // Transaction receipt
 message GetTransactionReceiptRequest {
