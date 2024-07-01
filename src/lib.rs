@@ -13,6 +13,18 @@ pub mod rpc_model {
 	use anyhow::anyhow;
 	use std::str::FromStr;
 
+	impl From<SubmitTransactionRequest> for SubmitTransactionRequestV2 {
+		fn from(value: SubmitTransactionRequest) -> Self {
+			Self {
+				nonce: value.nonce,
+				fee_limit: value.fee_limit,
+				transaction_type: value.transaction_type.and_then(|v| Some(v.into())),
+				verifying_key: value.verifying_key,
+				signature: value.signature,
+			}
+		}
+	}
+
 	impl From<submit_transaction_request::TransactionType> for submit_transaction_request_v2::TransactionType {
 		fn from(value: submit_transaction_request::TransactionType) -> Self {
 			match value {
