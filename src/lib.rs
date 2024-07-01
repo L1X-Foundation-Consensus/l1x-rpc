@@ -13,6 +13,46 @@ pub mod rpc_model {
 	use anyhow::anyhow;
 	use std::str::FromStr;
 
+	impl From<submit_transaction_request::TransactionType> for submit_transaction_request_v2::TransactionType {
+		fn from(value: submit_transaction_request::TransactionType) -> Self {
+			match value {
+				submit_transaction_request::TransactionType::CreateStakingPool(v) => Self::CreateStakingPool(v),
+				submit_transaction_request::TransactionType::NativeTokenTransfer(v) => Self::NativeTokenTransfer(v),
+				submit_transaction_request::TransactionType::SmartContractDeployment(v) => {
+					Self::SmartContractDeployment(
+						SmartContractDeploymentV2 {
+							access_type: v.access_type,
+							contract_type: v.contract_type,
+							contract_code: v.contract_code,
+							deposit: v.value.to_string(),
+							salt: v.salt
+						}
+					)
+				},
+				submit_transaction_request::TransactionType::SmartContractFunctionCall(v) => {
+					Self::SmartContractFunctionCall(
+						SmartContractFunctionCallV2 {
+							contract_instance_address: v.contract_address,
+							function_name: v.function_name,
+							arguments: v.arguments,
+							deposit: "0".to_owned(),
+						}
+					)
+				},
+				submit_transaction_request::TransactionType::SmartContractInit(v) => {
+					Self::SmartContractInit(
+						SmartContractInitV2 {
+							contract_code_address: v.address,
+							arguments: v.arguments,
+							deposit: "0".to_owned() }
+					)
+				},
+				submit_transaction_request::TransactionType::Stake(v) => Self::Stake(v),
+				submit_transaction_request::TransactionType::Unstake(v) => Self::Unstake(v),
+			}
+		}
+	}
+
 	impl TryFrom<submit_transaction_request::TransactionType> for super::transaction::TransactionType {
 		type Error = anyhow::Error;
 
@@ -285,6 +325,7 @@ pub mod rpc_model {
 			Ok(result_txn_type)
 		}
 	}
+	
 }
 
 #[derive(Debug, Serialize, Deserialize)]
