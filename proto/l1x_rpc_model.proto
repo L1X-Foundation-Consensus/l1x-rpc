@@ -18,6 +18,8 @@ service Node {
   rpc GetBlockByNumber (GetBlockByNumberRequest) returns (GetBlockByNumberResponse);
   rpc GetBlockV2ByNumber (GetBlockByNumberRequest) returns (GetBlockV2ByNumberResponse);
   rpc GetBlockV3ByNumber (GetBlockByNumberRequest) returns (GetBlockV3ByNumberResponse);
+  rpc GetBlockV4ByNumber (GetBlockByNumberRequest) returns (GetBlockV4ByNumberResponse);
+  rpc GetBlockV4ByNumber (GetBlockByNumberRequest) returns (GetBlockV4ByNumberResponse);
   rpc GetStake(GetStakeRequest) returns (GetStakeResponse);
   rpc GetCurrentNonce(GetCurrentNonceRequest) returns (GetCurrentNonceResponse);
   rpc GetEvents(GetEventsRequest) returns (stream GetEventsResponse);
@@ -275,9 +277,6 @@ message Block {
   repeated TransactionResponse transactions = 5;
   BlockType block_type = 6;
   string cluster_address = 7;
-  string epoch = 8;
-  string state_hash = 9;
-  string block_version = 10;
 }
 
 // Block
@@ -303,6 +302,19 @@ message BlockV3 {
   string block_version = 9;
 }
 
+message BlockV4 {
+  string number = 1;
+  string hash = 2;
+  string parent_hash = 3;
+  uint64 timestamp = 4;
+  repeated TransactionV2Response transactions = 5;
+  BlockType block_type = 6;
+  string cluster_address = 7;
+  string epoch = 8;
+  string state_hash = 9;
+  string block_version = 10;
+}
+
 message BlockHeader {
   uint64 block_number = 1;
   string block_hash = 2;
@@ -311,9 +323,6 @@ message BlockHeader {
   BlockType block_type = 5;
   string cluster_address = 6;
   uint32 num_transactions = 7;
-  string epoch = 8;
-  string state_hash = 9;
-  string block_version = 10;
   
 }
 
@@ -325,6 +334,19 @@ message BlockHeaderV3 {
   BlockType block_type = 5;
   string cluster_address = 6;
   uint32 num_transactions = 7;
+  string state_hash = 8;
+  string block_version = 9;
+}
+
+message BlockHeaderV4 {
+  uint64 block_number = 1;
+  string block_hash = 2;
+  string parent_hash = 3;
+  uint64 timestamp = 4;
+  BlockType block_type = 5;
+  string cluster_address = 6;
+  uint32 num_transactions = 7;
+  string epoch = 8;
   string state_hash = 8;
   string block_version = 9;
 }
@@ -350,6 +372,14 @@ message GetBlockV2ByNumberResponse {
 
 message GetBlockV3ByNumberResponse {
   BlockV3 block = 1;
+}
+
+message GetBlockV4ByNumberResponse {
+  BlockV4 block = 1;
+}
+
+message GetBlockV4ByNumberResponse {
+  BlockV4 block = 1;
 }
 
 message GetLatestBlockHeadersRequest {
