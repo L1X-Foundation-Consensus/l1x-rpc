@@ -19,10 +19,11 @@ service Node {
   rpc GetBlockV2ByNumber (GetBlockByNumberRequest) returns (GetBlockV2ByNumberResponse);
   rpc GetBlockV3ByNumber (GetBlockByNumberRequest) returns (GetBlockV3ByNumberResponse);
   rpc GetBlockV4ByNumber (GetBlockByNumberRequest) returns (GetBlockV4ByNumberResponse);
-  rpc GetBlockV4ByNumber (GetBlockByNumberRequest) returns (GetBlockV4ByNumberResponse);
   rpc GetStake(GetStakeRequest) returns (GetStakeResponse);
   rpc GetCurrentNonce(GetCurrentNonceRequest) returns (GetCurrentNonceResponse);
   rpc GetEvents(GetEventsRequest) returns (stream GetEventsResponse);
+  rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse);
+  rpc ImportAccount(ImportAccountRequest) returns (ImportAccountResponse);
 }
 
 // Account
@@ -255,7 +256,7 @@ message GetTransactionsByAccountRequest {
 }
 
 message GetTransactionsByAccountResponse {
-  repeated GetTransactionReceiptResponse transactions = 1;
+  repeated TransactionResponse transactions = 1;
 }
 
 // Chain state
@@ -266,6 +267,38 @@ message GetChainStateResponse {
   string cluster_address = 1;
   string head_block_number = 2;
   string head_block_hash = 3;
+}
+
+// Latest block request used by node syncing process
+message GetLatestBlocksRequest {
+}
+
+// Latest blocks response used by node syncing process
+message GetLatestBlocksResponse {
+  string cluster_address = 1;
+  string head_block_number = 2;
+  string head_block_hash = 3;
+  string last_executed_block = 4;
+}
+
+// Snapshot request used by full_node while syncing snapshot
+message GetLatestSnapshotRequest {
+}
+
+// Snapshot available in archive node
+message GetLatestSnapshotResponse {
+  uint32 version = 1;
+  string format = 2;
+  bytes data = 3;
+}
+
+// Snapshot block range available in archive node
+message GetSnapshotRangeRequest {
+}
+
+// Snapshot's block height(highest block stored by snapshot) available in archive node
+message GetSnapshotRangeResponse {
+  string highest_block = 1;
 }
 
 // Block
@@ -310,11 +343,10 @@ message BlockV4 {
   repeated TransactionV2Response transactions = 5;
   BlockType block_type = 6;
   string cluster_address = 7;
-  string epoch = 8;
-  string state_hash = 9;
-  string block_version = 10;
+  string state_hash = 8;
+  string block_version = 9;
+  string epoch = 10;
 }
-
 message BlockHeader {
   uint64 block_number = 1;
   string block_hash = 2;
@@ -323,7 +355,6 @@ message BlockHeader {
   BlockType block_type = 5;
   string cluster_address = 6;
   uint32 num_transactions = 7;
-  
 }
 
 message BlockHeaderV3 {
@@ -346,9 +377,9 @@ message BlockHeaderV4 {
   BlockType block_type = 5;
   string cluster_address = 6;
   uint32 num_transactions = 7;
-  string epoch = 8;
   string state_hash = 8;
   string block_version = 9;
+  string epoch = 10;
 }
 
 enum BlockType {
@@ -378,10 +409,6 @@ message GetBlockV4ByNumberResponse {
   BlockV4 block = 1;
 }
 
-message GetBlockV4ByNumberResponse {
-  BlockV4 block = 1;
-}
-
 message GetLatestBlockHeadersRequest {
   uint32 number_of_blocks = 1;
   uint32 blocks_per_page = 2;
@@ -400,6 +427,11 @@ message GetLatestBlockHeadersRequestV3 {
 message GetLatestBlockHeadersResponseV3 {
   uint32 page_number = 1;
   repeated BlockHeaderV3 page = 2;
+}
+
+message GetLatestBlockHeadersResponseV4 {
+  uint32 page_number = 1;
+  repeated BlockHeaderV4 page = 2;
 }
 
 message GetLatestTransactionsRequest {
@@ -456,11 +488,6 @@ message GetStakeRequest {
 
 message GetStakeResponse {
   string amount = 1;
-}
-
-// Get node info
-message NodeInfoRequest {
-  string address = 1;
 }
 
 //Create Account
