@@ -6,13 +6,18 @@ package rpc_model;
 service Node {
   rpc GetAccountState (GetAccountStateRequest) returns (GetAccountStateResponse);
   rpc SubmitTransaction (SubmitTransactionRequest) returns (stream SubmitTransactionResponse);
+  rpc EstimateFee (EstimateFeeRequest) returns (EstimateFeeResponse);
   rpc GetTransactionReceipt (GetTransactionReceiptRequest) returns (GetTransactionReceiptResponse);
   rpc GetTransactionsByAccount (GetTransactionsByAccountRequest) returns (GetTransactionsByAccountResponse);
   rpc SmartContractReadOnlyCall(SmartContractReadOnlyCallRequest) returns (SmartContractReadOnlyCallResponse);
   rpc GetChainState (GetChainStateRequest) returns (GetChainStateResponse);
+  rpc GetLatestBlocks (GetLatestBlocksRequest) returns (GetLatestBlocksResponse);
+  rpc GetLatestSnapshot (GetLatestSnapshotRequest) returns (stream GetLatestSnapshotResponse);
+  rpc GetSnapshotRange (GetSnapshotRangeRequest) returns (GetSnapshotRangeResponse);
+  rpc GetProtocolVersion (GetProtocolVersionRequest) returns (GetProtocolVersionResponse);
   rpc GetBlockByNumber (GetBlockByNumberRequest) returns (GetBlockByNumberResponse);
-  // rpc GetLatestBlockHeaders (GetLatestBlockHeadersRequest) returns (GetLatestBlockHeadersResponse);
-  // rpc GetLatestTransactions (GetLatestTransactionsRequest) returns (GetLatestTransactionsResponse);
+  rpc GetBlockV2ByNumber (GetBlockByNumberRequest) returns (GetBlockV2ByNumberResponse);
+  rpc GetBlockV3ByNumber (GetBlockByNumberRequest) returns (GetBlockV3ByNumberResponse);
   rpc GetStake(GetStakeRequest) returns (GetStakeResponse);
   rpc GetCurrentNonce(GetCurrentNonceRequest) returns (GetCurrentNonceResponse);
   rpc GetEvents(GetEventsRequest) returns (stream GetEventsResponse);
@@ -50,7 +55,6 @@ message SmartContractDeployment {
   bytes contract_code = 3;
   uint64 value = 4;
   bytes salt = 5;
-
 }
 
 message SmartContractInit {
@@ -62,6 +66,27 @@ message SmartContractFunctionCall {
   bytes contract_address = 1;
   bytes function_name = 2;
   bytes arguments = 3;
+}
+
+message SmartContractDeploymentV2 {
+  AccessType access_type = 1;
+  ContractType contract_type = 2;
+  bytes contract_code = 3;
+  string deposit = 4;
+  bytes salt = 5;
+}
+
+message SmartContractInitV2 {
+  bytes contract_code_address = 1;
+  bytes arguments = 2;
+  string deposit = 3;
+}
+
+message SmartContractFunctionCallV2 {
+  bytes contract_instance_address = 1;
+  bytes function_name = 2;
+  bytes arguments = 3;
+  string deposit = 4;
 }
 
 message CreateStakingPool {
@@ -98,6 +123,15 @@ message GetEventsRequest {
 
 message GetEventsResponse {
   repeated bytes events_data = 1;
+}
+
+// Protocol version request
+message GetProtocolVersionRequest {
+}
+
+// Protocol version response
+message GetProtocolVersionResponse {
+  uint32 protocol_version = 1;
 }
 
 enum TransactionType {
@@ -143,6 +177,23 @@ message Transaction {
   bytes verifying_key = 11;
 }
 
+message TransactionV2 {
+  TransactionType tx_type = 1;
+  oneof transaction {
+    NativeTokenTransfer native_token_transfer = 2;
+    SmartContractDeployment smart_contract_deployment = 3;
+    SmartContractInit smart_contract_init = 4;
+    SmartContractFunctionCall smart_contract_function_call = 5;
+    Stake stake = 6;
+    UnStake unstake = 7;
+  }
+  string nonce = 8;
+  string fee_limit = 9;
+  bytes signature = 10;
+  bytes verifying_key = 11;
+  optional bytes eth_original_transaction = 12;
+}
+
 // Used when submitting a transaction
 message SubmitTransactionRequest {
   string nonce = 1;
@@ -164,6 +215,24 @@ message SubmitTransactionResponse {
   string hash = 1;
   optional string contract_address = 2; // deployed or instantiated contract address
 }
+
+message EstimateFeeRequest {
+  oneof transaction_type {
+    NativeTokenTransfer native_token_transfer = 2;
+    SmartContractDeploymentV2 smart_contract_deployment = 3;
+    SmartContractInitV2 smart_contract_init = 4;
+    SmartContractFunctionCallV2 smart_contract_function_call = 5;
+    CreateStakingPool create_staking_pool = 9;
+    Stake stake = 10;
+    UnStake unstake = 11;
+  }
+  bytes verifying_key = 12;
+}
+
+message EstimateFeeResponse {
+  string fee = 1;
+}
+
 
 // Transaction receipt
 message GetTransactionReceiptRequest {
@@ -211,6 +280,29 @@ message Block {
   string block_version = 10;
 }
 
+// Block
+message BlockV2 {
+  string number = 1;
+  string hash = 2;
+  string parent_hash = 3;
+  uint64 timestamp = 4;
+  repeated TransactionV2Response transactions = 5;
+  BlockType block_type = 6;
+  string cluster_address = 7;
+}
+
+message BlockV3 {
+  string number = 1;
+  string hash = 2;
+  string parent_hash = 3;
+  uint64 timestamp = 4;
+  repeated TransactionV2Response transactions = 5;
+  BlockType block_type = 6;
+  string cluster_address = 7;
+  string state_hash = 8;
+  string block_version = 9;
+}
+
 message BlockHeader {
   uint64 block_number = 1;
   string block_hash = 2;
@@ -223,6 +315,18 @@ message BlockHeader {
   string state_hash = 9;
   string block_version = 10;
   
+}
+
+message BlockHeaderV3 {
+  uint64 block_number = 1;
+  string block_hash = 2;
+  string parent_hash = 3;
+  uint64 timestamp = 4;
+  BlockType block_type = 5;
+  string cluster_address = 6;
+  uint32 num_transactions = 7;
+  string state_hash = 8;
+  string block_version = 9;
 }
 
 enum BlockType {
@@ -240,6 +344,14 @@ message GetBlockByNumberResponse {
   Block block = 1;
 }
 
+message GetBlockV2ByNumberResponse {
+  BlockV2 block = 1;
+}
+
+message GetBlockV3ByNumberResponse {
+  BlockV3 block = 1;
+}
+
 message GetLatestBlockHeadersRequest {
   uint32 number_of_blocks = 1;
   uint32 blocks_per_page = 2;
@@ -248,6 +360,16 @@ message GetLatestBlockHeadersRequest {
 message GetLatestBlockHeadersResponse {
   uint32 page_number = 1;
   repeated BlockHeader page = 2;
+}
+
+message GetLatestBlockHeadersRequestV3 {
+  uint32 number_of_blocks = 1;
+  uint32 blocks_per_page = 2;
+}
+
+message GetLatestBlockHeadersResponseV3 {
+  uint32 page_number = 1;
+  repeated BlockHeaderV3 page = 2;
 }
 
 message GetLatestTransactionsRequest {
@@ -262,6 +384,16 @@ message GetLatestTransactionsResponse {
 
 message TransactionResponse {
   Transaction transaction = 1;
+  bytes from = 2; // Potential "to" address is inside transaction if tx is of a type that has a "to" address
+  bytes transaction_hash = 3;
+  bytes block_hash = 4;
+  int64 block_number = 5;
+  string fee_used = 6;
+  uint64 timestamp = 7;
+}
+
+message TransactionV2Response {
+  TransactionV2 transaction = 1;
   bytes from = 2; // Potential "to" address is inside transaction if tx is of a type that has a "to" address
   bytes transaction_hash = 3;
   bytes block_hash = 4;
@@ -299,4 +431,31 @@ message GetStakeResponse {
 // Get node info
 message NodeInfoRequest {
   string address = 1;
+}
+
+//Create Account
+message Account{
+  string private_key = 1;
+  string public_key = 2;
+  string address = 3;
+}
+
+message CreateAccountRequest{
+  string password = 1;
+  string keystore_path = 2;
+}
+
+message CreateAccountResponse{
+  Account account = 1;
+}
+
+//Import Account
+message ImportAccountRequest{
+  string password = 1;
+  string private_key = 2;
+  string keystore_path = 3;
+}
+
+message ImportAccountResponse{
+  Account account = 1;
 }

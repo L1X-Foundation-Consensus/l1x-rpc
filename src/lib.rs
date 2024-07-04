@@ -105,6 +105,102 @@ pub mod rpc_model {
 		}
 	}
 
+	impl TryFrom<estimate_fee_request::TransactionType> for super::transaction::TransactionTypeV2 {
+		type Error = anyhow::Error;
+
+		fn try_from(
+			value: estimate_fee_request::TransactionType,
+		) -> Result<Self, Self::Error> {
+			let result_txn_type = match value {
+				estimate_fee_request::TransactionType::NativeTokenTransfer(
+					NativeTokenTransfer { address, amount },
+				) => super::transaction::TransactionTypeV2::NativeTokenTransfer(
+					address.try_into().map_err(|_| anyhow!("Failed to convert address bytes"))?,
+					u128::from_str(&amount)
+						.map_err(|_| anyhow!("Failed to convert string to u128"))?,
+				),
+				estimate_fee_request::TransactionType::SmartContractDeployment(
+					SmartContractDeploymentV2 {
+						access_type,
+						contract_type,
+						contract_code,
+						deposit,
+						salt,
+					},
+				) => super::transaction::TransactionTypeV2::SmartContractDeployment {
+					access_type: access_type.try_into()?,
+					contract_type: contract_type.try_into()?,
+					contract_code,
+					deposit: u128::from_str(&deposit)
+							.map_err(|_| anyhow!("Failed to convert string to u128"))?,
+					salt,
+				},
+				estimate_fee_request::TransactionType::SmartContractInit(
+					SmartContractInitV2 { contract_code_address, arguments, deposit },
+				) => super::transaction::TransactionTypeV2::SmartContractInit {
+					contract_code_address: contract_code_address.try_into().map_err(|_| anyhow!("Failed to convert address bytes"))?,
+					arguments,
+					deposit: u128::from_str(&deposit)
+							.map_err(|_| anyhow!("Failed to convert string to u128"))?,
+
+				},
+				estimate_fee_request::TransactionType::SmartContractFunctionCall(
+					SmartContractFunctionCallV2 { contract_instance_address, function_name, arguments, deposit },
+				) => super::transaction::TransactionTypeV2::SmartContractFunctionCall {
+					contract_instance_address: contract_instance_address.try_into().map_err(|_| anyhow!("Failed to convert address bytes"))?,
+					function: function_name,
+					arguments,
+					deposit: u128::from_str(&deposit)
+					.map_err(|_| anyhow!("Failed to convert string to u128"))?,
+				},
+				estimate_fee_request::TransactionType::CreateStakingPool(
+					CreateStakingPool {
+						contract_instance_address,
+						min_stake,
+						max_stake,
+						min_pool_balance,
+						max_pool_balance,
+						staking_period,
+					},
+				) => super::transaction::TransactionTypeV2::CreateStakingPool {
+					contract_instance_address: match contract_instance_address {
+						Some(x) => Some(x.try_into().map_err(|_| {
+							anyhow!("Failed to convert contract_instance_address bytes")
+						})?),
+						None => None,
+					},
+
+					min_stake: min_stake.and_then(|s| s.parse().ok()),
+					max_stake: max_stake.and_then(|s| s.parse().ok()),
+					min_pool_balance: min_pool_balance.and_then(|s| s.parse().ok()),
+					max_pool_balance: max_pool_balance.and_then(|s| s.parse().ok()),
+					staking_period: staking_period.and_then(|s| s.parse().ok()),
+				},
+				estimate_fee_request::TransactionType::Stake(Stake {
+					pool_address,
+					amount,
+				}) => super::transaction::TransactionTypeV2::Stake {
+					pool_address: pool_address
+						.try_into()
+						.map_err(|_| anyhow!("Failed to convert pool_address bytes"))?,
+					amount: u128::from_str(&amount)
+						.map_err(|_| anyhow!("Failed to convert string to u128"))?,
+				},
+				estimate_fee_request::TransactionType::Unstake(UnStake {
+					pool_address,
+					amount,
+				}) => super::transaction::TransactionTypeV2::UnStake {
+					pool_address: pool_address
+						.try_into()
+						.map_err(|_| anyhow!("Failed to convert pool_address bytes"))?,
+					amount: u128::from_str(&amount)
+						.map_err(|_| anyhow!("Failed to convert string to u128"))?,
+				},
+			};
+			Ok(result_txn_type)
+		}
+	}
+
 	impl TryFrom<transaction::Transaction> for super::transaction::TransactionType {
 		type Error = anyhow::Error;
 
