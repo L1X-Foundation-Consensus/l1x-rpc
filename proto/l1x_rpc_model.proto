@@ -9,7 +9,9 @@ service Node {
   rpc SubmitTransactionV2 (SubmitTransactionRequestV2) returns (stream SubmitTransactionResponse);
   rpc EstimateFee (EstimateFeeRequest) returns (EstimateFeeResponse);
   rpc GetTransactionReceipt (GetTransactionReceiptRequest) returns (GetTransactionReceiptResponse);
+  rpc GetTransactionV3Receipt (GetTransactionReceiptRequest) returns (GetTransactionV3ReceiptResponse);
   rpc GetTransactionsByAccount (GetTransactionsByAccountRequest) returns (GetTransactionsByAccountResponse);
+  rpc GetTransactionsV3ByAccount (GetTransactionsByAccountRequest) returns (GetTransactionsV3ByAccountResponse);
   rpc SmartContractReadOnlyCall(SmartContractReadOnlyCallRequest) returns (SmartContractReadOnlyCallResponse);
   rpc GetChainState (GetChainStateRequest) returns (GetChainStateResponse);
   rpc GetLatestBlocks (GetLatestBlocksRequest) returns (GetLatestBlocksResponse);
@@ -278,7 +280,11 @@ message GetTransactionReceiptRequest {
 message GetTransactionReceiptResponse {
   TransactionResponse transaction = 1;
   TransactionStatus status = 2;
+}
 
+message GetTransactionV3ReceiptResponse {
+  TransactionV3Response transaction = 1;
+  TransactionStatus status = 2;
 }
 
 // Transactions list
@@ -290,6 +296,10 @@ message GetTransactionsByAccountRequest {
 
 message GetTransactionsByAccountResponse {
   repeated TransactionResponse transactions = 1;
+}
+
+message GetTransactionsV3ByAccountResponse {
+  repeated TransactionV3Response transactions = 1;
 }
 
 // Chain state
@@ -441,6 +451,11 @@ message GetLatestTransactionsRequest {
 message GetLatestTransactionsResponse {
   uint32 page_number = 1;
   repeated TransactionResponse page = 2; // Each page contains number_of_transactions transactions
+}
+
+message GetLatestTransactionsV3Response {
+  uint32 page_number = 1;
+  repeated TransactionV3Response page = 2; // Each page contains number_of_transactions transactions
 }
 
 message TransactionResponse {
