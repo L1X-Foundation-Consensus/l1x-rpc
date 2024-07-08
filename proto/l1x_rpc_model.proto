@@ -256,6 +256,7 @@ message SubmitTransactionResponse {
 }
 
 message EstimateFeeRequest {
+  string fee_limit = 1;
   oneof transaction_type {
     NativeTokenTransfer native_token_transfer = 2;
     SmartContractDeploymentV2 smart_contract_deployment = 3;
