@@ -6,9 +6,12 @@ package rpc_model;
 service Node {
   rpc GetAccountState (GetAccountStateRequest) returns (GetAccountStateResponse);
   rpc SubmitTransaction (SubmitTransactionRequest) returns (stream SubmitTransactionResponse);
+  rpc SubmitTransactionV2 (SubmitTransactionRequestV2) returns (stream SubmitTransactionResponse);
   rpc EstimateFee (EstimateFeeRequest) returns (EstimateFeeResponse);
   rpc GetTransactionReceipt (GetTransactionReceiptRequest) returns (GetTransactionReceiptResponse);
+  rpc GetTransactionV3Receipt (GetTransactionReceiptRequest) returns (GetTransactionV3ReceiptResponse);
   rpc GetTransactionsByAccount (GetTransactionsByAccountRequest) returns (GetTransactionsByAccountResponse);
+  rpc GetTransactionsV3ByAccount (GetTransactionsByAccountRequest) returns (GetTransactionsV3ByAccountResponse);
   rpc SmartContractReadOnlyCall(SmartContractReadOnlyCallRequest) returns (SmartContractReadOnlyCallResponse);
   rpc GetChainState (GetChainStateRequest) returns (GetChainStateResponse);
   rpc GetLatestBlocks (GetLatestBlocksRequest) returns (GetLatestBlocksResponse);
@@ -196,6 +199,23 @@ message TransactionV2 {
   optional bytes eth_original_transaction = 12;
 }
 
+message TransactionV3 {
+  TransactionType tx_type = 1;
+  oneof transaction {
+    NativeTokenTransfer native_token_transfer = 2;
+    SmartContractDeploymentV2 smart_contract_deployment = 3;
+    SmartContractInitV2 smart_contract_init = 4;
+    SmartContractFunctionCallV2 smart_contract_function_call = 5;
+    Stake stake = 6;
+    UnStake unstake = 7;
+  }
+  string nonce = 8;
+  string fee_limit = 9;
+  bytes signature = 10;
+  bytes verifying_key = 11;
+  optional bytes eth_original_transaction = 12;
+}
+
 // Used when submitting a transaction
 message SubmitTransactionRequest {
   string nonce = 1;
@@ -213,12 +233,30 @@ message SubmitTransactionRequest {
   bytes verifying_key = 14;
 }
 
+// Used when submitting a transaction
+message SubmitTransactionRequestV2 {
+  string nonce = 1;
+  oneof transaction_type {
+    NativeTokenTransfer native_token_transfer = 2;
+    SmartContractDeploymentV2 smart_contract_deployment = 3;
+    SmartContractInitV2 smart_contract_init = 4;
+    SmartContractFunctionCallV2 smart_contract_function_call = 5;
+    CreateStakingPool create_staking_pool = 9;
+    Stake stake = 10;
+    UnStake unstake = 11;
+  }
+  string fee_limit = 12;
+  bytes signature = 13;
+  bytes verifying_key = 14;
+}
+
 message SubmitTransactionResponse {
   string hash = 1;
   optional string contract_address = 2; // deployed or instantiated contract address
 }
 
 message EstimateFeeRequest {
+  string fee_limit = 1;
   oneof transaction_type {
     NativeTokenTransfer native_token_transfer = 2;
     SmartContractDeploymentV2 smart_contract_deployment = 3;
@@ -235,7 +273,6 @@ message EstimateFeeResponse {
   string fee = 1;
 }
 
-
 // Transaction receipt
 message GetTransactionReceiptRequest {
   string hash = 1;
@@ -244,7 +281,11 @@ message GetTransactionReceiptRequest {
 message GetTransactionReceiptResponse {
   TransactionResponse transaction = 1;
   TransactionStatus status = 2;
+}
 
+message GetTransactionV3ReceiptResponse {
+  TransactionV3Response transaction = 1;
+  TransactionStatus status = 2;
 }
 
 // Transactions list
@@ -256,6 +297,10 @@ message GetTransactionsByAccountRequest {
 
 message GetTransactionsByAccountResponse {
   repeated TransactionResponse transactions = 1;
+}
+
+message GetTransactionsV3ByAccountResponse {
+  repeated TransactionV3Response transactions = 1;
 }
 
 // Chain state
@@ -327,7 +372,7 @@ message BlockV3 {
   string hash = 2;
   string parent_hash = 3;
   uint64 timestamp = 4;
-  repeated TransactionV2Response transactions = 5;
+  repeated TransactionV3Response transactions = 5;
   BlockType block_type = 6;
   string cluster_address = 7;
   string state_hash = 8;
@@ -415,6 +460,11 @@ message GetLatestTransactionsResponse {
   repeated TransactionResponse page = 2; // Each page contains number_of_transactions transactions
 }
 
+message GetLatestTransactionsV3Response {
+  uint32 page_number = 1;
+  repeated TransactionV3Response page = 2; // Each page contains number_of_transactions transactions
+}
+
 message TransactionResponse {
   Transaction transaction = 1;
   bytes from = 2; // Potential "to" address is inside transaction if tx is of a type that has a "to" address
@@ -427,6 +477,16 @@ message TransactionResponse {
 
 message TransactionV2Response {
   TransactionV2 transaction = 1;
+  bytes from = 2; // Potential "to" address is inside transaction if tx is of a type that has a "to" address
+  bytes transaction_hash = 3;
+  bytes block_hash = 4;
+  int64 block_number = 5;
+  string fee_used = 6;
+  uint64 timestamp = 7;
+}
+
+message TransactionV3Response {
+  TransactionV3 transaction = 1;
   bytes from = 2; // Potential "to" address is inside transaction if tx is of a type that has a "to" address
   bytes transaction_hash = 3;
   bytes block_hash = 4;
