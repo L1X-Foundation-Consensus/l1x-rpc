@@ -332,7 +332,7 @@ message BlockV3 {
   string cluster_address = 7;
   string state_hash = 8;
   string block_version = 9;
-  string epoch = 10
+  string epoch = 10;
 }
 
 
