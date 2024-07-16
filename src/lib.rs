@@ -444,9 +444,74 @@ pub struct TXSignPayload {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TXSignPayloadV2 {
-	pub nonce: Nonce,
-	pub transaction_type: TransactionTypeV2,
-	pub fee_limit: Balance,
+	pub nonce: String,
+	pub transaction_type: TransactionTypeV2SignPayload,
+	pub fee_limit: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub enum TransactionTypeV2SignPayload {
+	NativeTokenTransfer(Address, String),
+	SmartContractDeployment {
+		access_type: transaction::AccessType,
+		contract_type: transaction::ContractType,
+		contract_code: ContractCode,
+		deposit: String,
+		salt: Salt,
+	},
+	SmartContractInit {
+		contract_code_address: Address,
+		arguments: ContractArgument,
+		deposit: String,
+	},
+	SmartContractFunctionCall {
+		contract_instance_address: Address,
+		function: ContractFunction,
+		arguments: ContractArgument,
+		deposit: String,
+	},
+	CreateStakingPool {
+		contract_instance_address: Option<Address>,
+		min_stake: Option<Balance>,
+		max_stake: Option<Balance>,
+		min_pool_balance: Option<Balance>,
+		max_pool_balance: Option<Balance>,
+		staking_period: Option<BlockNumber>,
+	},
+	Stake {
+		pool_address: Address,
+		amount: Balance,
+	},
+	UnStake {
+		pool_address: Address,
+		amount: Balance,
+	},
+	StakingPoolContract {
+		pool_address: Address,
+		contract_instance_address: Address,
+	},
+}
+
+impl From<TransactionTypeV2> for TransactionTypeV2SignPayload {
+	fn from(value: TransactionTypeV2) -> Self {
+		match value {
+			TransactionTypeV2::NativeTokenTransfer(address, balance) => Self::NativeTokenTransfer(address, balance.to_string()),
+			TransactionTypeV2::SmartContractDeployment { access_type, contract_type, contract_code, deposit, salt } =>
+			Self::SmartContractDeployment { access_type, contract_type, contract_code, deposit: deposit.to_string(), salt },
+			TransactionTypeV2::SmartContractFunctionCall { contract_instance_address, function, arguments, deposit } =>
+			Self::SmartContractFunctionCall { contract_instance_address, function, arguments, deposit: deposit.to_string() },
+			TransactionTypeV2::SmartContractInit { contract_code_address, arguments, deposit } =>
+			Self::SmartContractInit { contract_code_address, arguments, deposit: deposit.to_string() },
+			TransactionTypeV2::CreateStakingPool { contract_instance_address, min_stake, max_stake, min_pool_balance, max_pool_balance, staking_period } =>
+				Self::CreateStakingPool { contract_instance_address, min_stake, max_stake, min_pool_balance, max_pool_balance, staking_period },
+			TransactionTypeV2::Stake { pool_address, amount } =>
+				Self::Stake { pool_address, amount },
+			TransactionTypeV2::StakingPoolContract { pool_address, contract_instance_address } => 
+				Self::StakingPoolContract { pool_address, contract_instance_address },
+			TransactionTypeV2::UnStake { pool_address, amount } =>
+				Self::UnStake { pool_address, amount }
+		}
+	}
 }
 
 pub fn sign(
@@ -470,7 +535,7 @@ pub fn sign_v2(
 	nonce: Nonce,
 ) -> Result<Vec<u8>> {
 	let transaction_type: TransactionTypeV2 = transaction_type.try_into()?;
-	let sign_payload = TXSignPayloadV2 { nonce, transaction_type, fee_limit };
+	let sign_payload = TXSignPayloadV2 { nonce: nonce.to_string(), transaction_type: transaction_type.into(), fee_limit: fee_limit.to_string() };
 	let json_str = serde_json::to_string(&sign_payload)?;
 	let message = Message::from_hashed_data::<sha256::Hash>(json_str.as_bytes());
 	let sig = secret_key.sign_ecdsa(message);
