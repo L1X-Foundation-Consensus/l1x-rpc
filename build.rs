@@ -91,6 +91,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 		.type_attribute("CreateAccountResponse", SERDE_ANNOTATION)
 		.type_attribute("ImportAccountRequest", SERDE_ANNOTATION)
 		.type_attribute("ImportAccountResponse", SERDE_ANNOTATION)
+		.type_attribute("NodeInfo", SERDE_ANNOTATION)
+		.type_attribute("GetNodeInfoRequest", SERDE_ANNOTATION)
+		.type_attribute("GetNodeInfoResponse", SERDE_ANNOTATION)
 		.protoc_arg("--experimental_allow_proto3_optional");
 	tonic_build::configure().compile_with_config(config, &["l1x_rpc_model.proto"], &["proto"])?;
 
