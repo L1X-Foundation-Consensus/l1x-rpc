@@ -550,20 +550,18 @@ message ImportAccountResponse{
 }
 
 message GetNodeInfoRequest {
-  string peer_id = 1;
-  string epoch = 2;
+  string address = 1;
 }
 
 message NodeInfo {
-  string measured_peer_id = 1;
+  bytes address = 1;
   string peer_id = 2;
-  string epoch = 3;
-  string joined_epoch = 4;
-  double uptime_percentage = 5;
-  uint64 response_time_ms = 6;
-  uint64 transaction_count = 7;
-  uint64 block_proposal_count = 8;
-  double anomaly_score = 9;
+  uint64 joined_epoch = 3;
+  bytes ip_address = 4;
+  bytes metadata = 5;
+  bytes cluster_address = 6;
+  bytes signature = 7;
+  bytes verifying_key = 8;
 }
 
 message GetNodeInfoResponse {
