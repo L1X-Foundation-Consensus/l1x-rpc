@@ -549,9 +549,7 @@ message ImportAccountResponse{
   Account account = 1;
 }
 
-message GetNodeInfoRequest {
-  string address = 1;
-}
+message GetNodeInfoRequest {}
 
 message NodeInfo {
   bytes address = 1;
@@ -565,5 +563,5 @@ message NodeInfo {
 }
 
 message GetNodeInfoResponse {
-  NodeInfo node_info = 1;
+  repeated NodeInfo node_info = 1;
 }
