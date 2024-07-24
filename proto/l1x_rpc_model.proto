@@ -26,6 +26,7 @@ service Node {
   rpc GetEvents(GetEventsRequest) returns (stream GetEventsResponse);
   rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse);
   rpc ImportAccount(ImportAccountRequest) returns (ImportAccountResponse);
+  rpc GetNodeInfo (GetNodeInfoRequest) returns (GetNodeInfoResponse);
 }
 
 // Account
@@ -546,4 +547,25 @@ message ImportAccountRequest{
 
 message ImportAccountResponse{
   Account account = 1;
+}
+
+message GetNodeInfoRequest {
+  string peer_id = 1;
+  string epoch = 2;
+}
+
+message NodeInfo {
+  string measured_peer_id = 1;
+  string peer_id = 2;
+  string epoch = 3;
+  string joined_epoch = 4;
+  double uptime_percentage = 5;
+  uint64 response_time_ms = 6;
+  uint64 transaction_count = 7;
+  uint64 block_proposal_count = 8;
+  double anomaly_score = 9;
+}
+
+message GetNodeInfoResponse {
+  NodeInfo node_info = 1;
 }
