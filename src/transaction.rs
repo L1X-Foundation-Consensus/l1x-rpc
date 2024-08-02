@@ -11,6 +11,13 @@ pub enum AccessType {
 	RESTICTED = 2,
 }
 
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub enum TransactionVersion {
+	V1 = 1,
+	V2,
+	V3
+}
+
 impl TryInto<AccessType> for i32 {
 	type Error = Error;
 
@@ -71,6 +78,7 @@ pub struct TransactionV2 {
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct TransactionV3 {
+	pub version: TransactionVersion,
 	pub nonce: Nonce,
 	pub transaction_type: TransactionTypeV2,
 	pub fee_limit: Balance,
