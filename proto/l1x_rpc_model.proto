@@ -167,6 +167,12 @@ enum TransactionStatus {
   TRANSACTION_STATUS_FAILED = 1;
 }
 
+enum TransactionVersion {
+  TRANSACTION_VERSION_V1 = 0;
+  TRANSACTION_VERSION_V2 = 1;
+  TRANSACTION_VERSION_V3 = 2;
+}
+
 message Transaction {
   TransactionType tx_type = 1;
   oneof transaction {
@@ -201,20 +207,21 @@ message TransactionV2 {
 }
 
 message TransactionV3 {
-  TransactionType tx_type = 1;
+  TransactionVersion version = 1;
+  TransactionType tx_type = 2;
   oneof transaction {
-    NativeTokenTransfer native_token_transfer = 2;
-    SmartContractDeploymentV2 smart_contract_deployment = 3;
-    SmartContractInitV2 smart_contract_init = 4;
-    SmartContractFunctionCallV2 smart_contract_function_call = 5;
-    Stake stake = 6;
-    UnStake unstake = 7;
+    NativeTokenTransfer native_token_transfer = 3;
+    SmartContractDeploymentV2 smart_contract_deployment = 4;
+    SmartContractInitV2 smart_contract_init = 5;
+    SmartContractFunctionCallV2 smart_contract_function_call = 6;
+    Stake stake = 7;
+    UnStake unstake = 8;
   }
-  string nonce = 8;
-  string fee_limit = 9;
-  bytes signature = 10;
-  bytes verifying_key = 11;
-  optional bytes eth_original_transaction = 12;
+  string nonce = 9;
+  string fee_limit = 10;
+  bytes signature = 11;
+  bytes verifying_key = 12;
+  optional bytes eth_original_transaction = 13;
 }
 
 // Used when submitting a transaction
