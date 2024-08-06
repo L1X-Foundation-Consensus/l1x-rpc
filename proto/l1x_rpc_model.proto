@@ -27,6 +27,7 @@ service Node {
   rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse);
   rpc ImportAccount(ImportAccountRequest) returns (ImportAccountResponse);
   rpc GetNodeInfo (GetNodeInfoRequest) returns (GetNodeInfoResponse);
+  rpc GetGenesisBlock (GetGenesisBlockRequest) returns (GetGenesisBlockResponse);
 }
 
 // Account
@@ -571,4 +572,15 @@ message NodeInfo {
 
 message GetNodeInfoResponse {
   repeated NodeInfo node_info = 1;
+}
+
+message GetGenesisBlockRequest {}
+
+message GenesisBlock {
+  int64 block_number = 1;
+  int64 epoch = 2;
+}
+
+message GetGenesisBlockResponse {
+  GenesisBlock genesis_block = 1;
 }
