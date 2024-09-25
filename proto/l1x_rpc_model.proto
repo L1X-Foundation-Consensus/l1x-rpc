@@ -28,6 +28,7 @@ service Node {
   rpc ImportAccount(ImportAccountRequest) returns (ImportAccountResponse);
   rpc GetNodeInfo (GetNodeInfoRequest) returns (GetNodeInfoResponse);
   rpc GetGenesisBlock (GetGenesisBlockRequest) returns (GetGenesisBlockResponse);
+  rpc GetCurrentNodeInfo (GetCurrentNodeInfoRequest) returns (GetCurrentNodeInfoResponse);
 }
 
 // Account
@@ -572,6 +573,22 @@ message NodeInfo {
 
 message GetNodeInfoResponse {
   repeated NodeInfo node_info = 1;
+}
+
+message GetCurrentNodeInfoRequest {}
+
+message CurrentNodeInfo {
+  string address = 1;
+  string peer_id = 2;
+  string ip_address = 3;
+}
+
+message GetCurrentNodeInfoResponse {
+  CurrentNodeInfo node_info = 1;
+  string block_number = 2;
+  string epoch = 3;
+  string block_proposer = 4;
+  repeated string validators = 5;
 }
 
 message GetGenesisBlockRequest {}
