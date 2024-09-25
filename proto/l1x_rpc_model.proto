@@ -26,6 +26,8 @@ service Node {
   rpc GetEvents(GetEventsRequest) returns (stream GetEventsResponse);
   rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse);
   rpc ImportAccount(ImportAccountRequest) returns (ImportAccountResponse);
+  rpc GetNodeInfo (GetNodeInfoRequest) returns (GetNodeInfoResponse);
+  rpc GetGenesisBlock (GetGenesisBlockRequest) returns (GetGenesisBlockResponse);
 }
 
 // Account
@@ -384,7 +386,9 @@ message BlockV3 {
   string cluster_address = 7;
   string state_hash = 8;
   string block_version = 9;
+  string epoch = 10;
 }
+
 
 message BlockHeader {
   uint64 block_number = 1;
@@ -406,7 +410,9 @@ message BlockHeaderV3 {
   uint32 num_transactions = 7;
   string state_hash = 8;
   string block_version = 9;
+  string epoch = 10;
 }
+
 
 enum BlockType {
   BLOCK_TYPE_UNSPECIFIED = 0;
@@ -431,6 +437,7 @@ message GetBlockV3ByNumberResponse {
   BlockV3 block = 1;
 }
 
+
 message GetLatestBlockHeadersRequest {
   uint32 number_of_blocks = 1;
   uint32 blocks_per_page = 2;
@@ -450,6 +457,7 @@ message GetLatestBlockHeadersResponseV3 {
   uint32 page_number = 1;
   repeated BlockHeaderV3 page = 2;
 }
+
 
 message GetLatestTransactionsRequest {
   uint32 number_of_transactions = 1;
@@ -547,4 +555,32 @@ message ImportAccountRequest{
 
 message ImportAccountResponse{
   Account account = 1;
+}
+
+message GetNodeInfoRequest {}
+
+message NodeInfo {
+  bytes address = 1;
+  string peer_id = 2;
+  uint64 joined_epoch = 3;
+  bytes ip_address = 4;
+  bytes metadata = 5;
+  bytes cluster_address = 6;
+  bytes signature = 7;
+  bytes verifying_key = 8;
+}
+
+message GetNodeInfoResponse {
+  repeated NodeInfo node_info = 1;
+}
+
+message GetGenesisBlockRequest {}
+
+message GenesisBlock {
+  int64 block_number = 1;
+  int64 epoch = 2;
+}
+
+message GetGenesisBlockResponse {
+  GenesisBlock genesis_block = 1;
 }
