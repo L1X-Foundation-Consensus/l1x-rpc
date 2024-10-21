@@ -390,6 +390,19 @@ message BlockV3 {
   string epoch = 10;
 }
 
+message BlockV5 {
+  string number = 1;
+  string hash = 2;
+  string parent_hash = 3;
+  uint64 timestamp = 4;
+  repeated TransactionV3Response transactions = 5;
+  BlockTypeV2 block_type = 6;
+  string cluster_address = 7;
+  string state_hash = 8;
+  string block_version = 9;
+  string epoch = 10;
+}
+
 
 message BlockHeader {
   uint64 block_number = 1;
@@ -414,12 +427,34 @@ message BlockHeaderV3 {
   string epoch = 10;
 }
 
+message BlockHeaderV5 {
+  uint64 block_number = 1;
+  string block_hash = 2;
+  string parent_hash = 3;
+  uint64 timestamp = 4;
+  BlockTypeV2 block_type = 5;
+  string cluster_address = 6;
+  uint32 num_transactions = 7;
+  string state_hash = 8;
+  string block_version = 9;
+  string epoch = 10;
+}
+
 
 enum BlockType {
   BLOCK_TYPE_UNSPECIFIED = 0;
   BLOCK_TYPE_L1X_TOKEN_BLOCK = 1;
   BLOCK_TYPE_L1X_CONTRACT_BLOCK = 2;
   BLOCK_TYPE_XTALK_BLOCK = 3;
+}
+
+enum BlockTypeV2 {
+  BLOCK_TYPE_V2_UNSPECIFIED = 0;
+  BLOCK_TYPE_V2_L1X_TOKEN_BLOCK = 1;
+  BLOCK_TYPE_V2_L1X_CONTRACT_BLOCK = 2;
+  BLOCK_TYPE_V2_XTALK_BLOCK = 3;
+  BLOCK_TYPE_V2_SUPER_BLOCK = 4;
+  BLOCK_TYPE_V2_SYSTEM_BLOCK = 5;
 }
 
 message GetBlockByNumberRequest {
@@ -438,6 +473,10 @@ message GetBlockV3ByNumberResponse {
   BlockV3 block = 1;
 }
 
+message GetBlockV5ByNumberResponse {
+  BlockV5 block = 1;
+}
+
 
 message GetLatestBlockHeadersRequest {
   uint32 number_of_blocks = 1;
@@ -454,11 +493,20 @@ message GetLatestBlockHeadersRequestV3 {
   uint32 blocks_per_page = 2;
 }
 
+message GetLatestBlockHeadersRequestV5 {
+  uint32 number_of_blocks = 1;
+  uint32 blocks_per_page = 2;
+}
+
 message GetLatestBlockHeadersResponseV3 {
   uint32 page_number = 1;
   repeated BlockHeaderV3 page = 2;
 }
 
+message GetLatestBlockHeadersResponseV5 {
+  uint32 page_number = 1;
+  repeated BlockHeaderV5 page = 2;
+}
 
 message GetLatestTransactionsRequest {
   uint32 number_of_transactions = 1;
