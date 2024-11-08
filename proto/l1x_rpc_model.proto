@@ -30,6 +30,8 @@ service Node {
   rpc GetGenesisBlock (GetGenesisBlockRequest) returns (GetGenesisBlockResponse);
   rpc GetCurrentNodeInfo (GetCurrentNodeInfoRequest) returns (GetCurrentNodeInfoResponse);
   rpc GetNodeHealths (GetNodeHealthsRequest) returns (GetNodeHealthsResponse);
+  rpc GetBlockProposerForEpoch (GetBPForEpochRequest) returns (GetBPForEpochResponse);
+  rpc GetValidatorsForEpoch (GetValidatorsForEpochRequest) returns (GetValidatorsForEpochResponse);
 }
 
 // Account
@@ -624,4 +626,30 @@ message NodeHealth {
 
 message GetNodeHealthsResponse {
   repeated NodeHealth node_healths = 1;
+}
+
+message BPForEpoch {
+    uint64 epoch = 1;
+    bytes bp_address = 2;
+}
+
+message GetBPForEpochRequest {
+    uint64 epoch = 1;
+}
+
+message GetBPForEpochResponse {
+  repeated BPForEpoch bp_for_epoch = 1;
+}
+
+message ValidatorsForEpoch {
+    uint64 epoch = 1;
+    repeated bytes validators = 2;
+}
+
+message GetValidatorsForEpochRequest {
+    uint64 epoch = 1;
+}
+
+message GetValidatorsForEpochResponse {
+  repeated ValidatorsForEpoch validators_for_epoch = 1;
 }
