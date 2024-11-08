@@ -30,7 +30,7 @@ service Node {
   rpc GetGenesisBlock (GetGenesisBlockRequest) returns (GetGenesisBlockResponse);
   rpc GetCurrentNodeInfo (GetCurrentNodeInfoRequest) returns (GetCurrentNodeInfoResponse);
   rpc GetNodeHealths (GetNodeHealthsRequest) returns (GetNodeHealthsResponse);
-  rpc GetBlockProposerForEpoch (GetBPForEpochRequest) returns (GetBPForEpochResponse);
+  rpc GetBlockProposerForEpoch (GetBpForEpochRequest) returns (GetBpForEpochResponse);
   rpc GetValidatorsForEpoch (GetValidatorsForEpochRequest) returns (GetValidatorsForEpochResponse);
 }
 
@@ -628,22 +628,29 @@ message GetNodeHealthsResponse {
   repeated NodeHealth node_healths = 1;
 }
 
-message BPForEpoch {
+message BpForEpoch {
     uint64 epoch = 1;
     bytes bp_address = 2;
 }
 
-message GetBPForEpochRequest {
+message GetBpForEpochRequest {
     uint64 epoch = 1;
 }
 
-message GetBPForEpochResponse {
-  repeated BPForEpoch bp_for_epoch = 1;
+message GetBpForEpochResponse {
+  repeated BpForEpoch bp_for_epoch = 1;
+}
+
+message Validator {
+    bytes address = 1;
+    bytes cluster_address = 2;
+    uint64 epoch = 3;
+    string stake = 4;
+    double xscore = 5;
 }
 
 message ValidatorsForEpoch {
-    uint64 epoch = 1;
-    repeated bytes validators = 2;
+    repeated Validator validators = 2;
 }
 
 message GetValidatorsForEpochRequest {
@@ -651,5 +658,5 @@ message GetValidatorsForEpochRequest {
 }
 
 message GetValidatorsForEpochResponse {
-  repeated ValidatorsForEpoch validators_for_epoch = 1;
+  repeated ValidatorsForEpoch validators_for_epochs = 1;
 }
