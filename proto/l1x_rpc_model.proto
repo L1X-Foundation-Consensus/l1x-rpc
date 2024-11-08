@@ -29,7 +29,6 @@ service Node {
   rpc GetNodeInfo (GetNodeInfoRequest) returns (GetNodeInfoResponse);
   rpc GetGenesisBlock (GetGenesisBlockRequest) returns (GetGenesisBlockResponse);
   rpc GetCurrentNodeInfo (GetCurrentNodeInfoRequest) returns (GetCurrentNodeInfoResponse);
-  rpc GetNodeHealths (GetNodeHealthsRequest) returns (GetNodeHealthsResponse);
 }
 
 // Account
@@ -603,25 +602,4 @@ message GenesisBlock {
 
 message GetGenesisBlockResponse {
   GenesisBlock genesis_block = 1;
-}
-
-message GetNodeHealthsRequest {
-    uint64 epoch = 1;
-}
-
-message NodeHealth {
-  string measured_peer_id = 1;
-  string peer_id = 2;
-  uint64 epoch = 3;
-  uint64 joined_epoch = 4;
-  double uptime_percentage = 5;
-  uint64 response_time_ms = 6;
-  uint64 transaction_count = 7;
-  uint64 block_proposal_count = 8;
-  double anomaly_score = 9;
-  uint32 node_health_version = 10;
-}
-
-message GetNodeHealthsResponse {
-  repeated NodeHealth node_healths = 1;
 }
