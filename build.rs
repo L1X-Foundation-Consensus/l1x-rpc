@@ -100,6 +100,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 		.type_attribute("CurrentNodeInfo", SERDE_ANNOTATION)
 		.type_attribute("GetCurrentNodeInfoRequest", SERDE_ANNOTATION)
 		.type_attribute("GetCurrentNodeInfoResponse", SERDE_ANNOTATION)
+		.type_attribute("NodeHealth", SERDE_ANNOTATION)
+		.type_attribute("GetNodeHealthsRequest", SERDE_ANNOTATION)
+		.type_attribute("GetNodeHealthsResponse", SERDE_ANNOTATION)
 		.protoc_arg("--experimental_allow_proto3_optional");
 	tonic_build::configure().compile_with_config(config, &["l1x_rpc_model.proto"], &["proto"])?;
 
