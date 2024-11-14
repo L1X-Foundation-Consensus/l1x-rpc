@@ -103,6 +103,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 		.type_attribute("NodeHealth", SERDE_ANNOTATION)
 		.type_attribute("GetNodeHealthsRequest", SERDE_ANNOTATION)
 		.type_attribute("GetNodeHealthsResponse", SERDE_ANNOTATION)
+		.type_attribute("BpForEpoch", SERDE_ANNOTATION)
+		.type_attribute("GetBpForEpochRequest", SERDE_ANNOTATION)
+		.type_attribute("GetBpForEpochResponse", SERDE_ANNOTATION)
+		.type_attribute("Validator", SERDE_ANNOTATION)
+		.type_attribute("ValidatorsForEpoch", SERDE_ANNOTATION)
+		.type_attribute("GetValidatorsForEpochRequest", SERDE_ANNOTATION)
+		.type_attribute("GetValidatorsForEpochResponse", SERDE_ANNOTATION)
 		.protoc_arg("--experimental_allow_proto3_optional");
 	tonic_build::configure().compile_with_config(config, &["l1x_rpc_model.proto"], &["proto"])?;
 
