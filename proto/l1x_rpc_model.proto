@@ -33,6 +33,7 @@ service Node {
   rpc GetBlockProposerForEpoch (GetBpForEpochRequest) returns (GetBpForEpochResponse);
   rpc GetValidatorsForEpoch (GetValidatorsForEpochRequest) returns (GetValidatorsForEpochResponse);
   rpc GetRuntimeStakingInfo (GetRuntimeStakingInfoRequest) returns (GetRuntimeStakingInfoResponse);
+  rpc GetRuntimeConfig (GetRuntimeConfigRequest) returns (GetRuntimeConfigResponse);
 }
 
 // Account
@@ -683,3 +684,68 @@ message GetRuntimeStakingInfoRequest {}
 message GetRuntimeStakingInfoResponse {
   RuntimeStakingInfo runtime_staking_info = 1;
 }
+
+message XscoreConfig {
+    double xscore_threshold = 1;
+    double weight_for_stakescore = 2;
+    double weight_for_kinscore = 3;
+}
+
+message StakeScoreConfig {
+    uint64 min_balance = 1;
+    uint64 max_balance = 2;
+    uint64 min_stake_age = 3;
+    uint64 max_stake_age = 4;
+    uint64 min_lock_period = 5;
+    uint64 max_lock_period = 6;
+    double weight_for_stake_balance_6 = 7;
+    double weight_for_stake_age_6 = 8;
+    double weight_for_locking_period_6 = 9;
+    double weight_for_stake_balance_12 = 10;
+    double weight_for_stake_age_12 = 11;
+    double weight_for_locking_period_12 = 12;
+    double weight_for_stake_balance_18 = 13;
+    double weight_for_stake_age_18 = 14;
+    double weight_for_locking_period_18 = 15;
+}
+
+message KinScoreConfig {
+    double min_uptime = 1;
+    double max_uptime = 2;
+    uint32 min_participation = 3;
+    uint32 max_participation = 4;
+    uint64 min_response_time = 5;
+    uint64 max_response_time = 6;
+    double min_security_measure = 7;
+    double max_security_measure = 8;
+    double xscore_threshold = 9;
+    double weight_for_uptime = 10;
+    double weight_for_participation_history = 11;
+    double weight_for_response_time = 12;
+    double weight_for_security_measure = 13;
+}
+
+message ValidatorRewards {
+    string validated_block_reward = 1;
+}
+
+message RuntimeConfig {
+    repeated string org_nodes = 1;
+    repeated string whitelisted_nodes = 2;
+    repeated string whitelisted_block_proposers = 3;
+    repeated string blacklisted_nodes = 4;
+    repeated string blacklisted_block_proposers = 5;
+    optional uint64 max_block_height = 6;
+    uint64 max_validators = 7;
+    XscoreConfig xscore = 8;
+    StakeScoreConfig stake_score = 9;
+    KinScoreConfig kin_score = 10;
+    ValidatorRewards rewards = 11;
+}
+
+message GetRuntimeConfigRequest {}
+
+message GetRuntimeConfigResponse {
+  RuntimeConfig runtime_config = 1;
+}
+

@@ -114,6 +114,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 		.type_attribute("RuntimeStakingInfo", SERDE_ANNOTATION)
 		.type_attribute("GetRuntimeStakingInfoRequest", SERDE_ANNOTATION)
 		.type_attribute("GetRuntimeStakingInfoResponse", SERDE_ANNOTATION)
+		.type_attribute("XscoreConfig", SERDE_ANNOTATION)
+		.type_attribute("StakeScoreConfig", SERDE_ANNOTATION)
+		.type_attribute("KinScoreConfig", SERDE_ANNOTATION)
+		.type_attribute("ValidatorRewards", SERDE_ANNOTATION)
+		.type_attribute("RuntimeConfig", SERDE_ANNOTATION)
+		.type_attribute("GetRuntimeConfigRequest", SERDE_ANNOTATION)
+		.type_attribute("GetRuntimeConfigResponse", SERDE_ANNOTATION)
 		.protoc_arg("--experimental_allow_proto3_optional");
 	tonic_build::configure().compile_with_config(config, &["l1x_rpc_model.proto"], &["proto"])?;
 
