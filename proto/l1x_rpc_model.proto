@@ -32,6 +32,7 @@ service Node {
   rpc GetNodeHealths (GetNodeHealthsRequest) returns (GetNodeHealthsResponse);
   rpc GetBlockProposerForEpoch (GetBpForEpochRequest) returns (GetBpForEpochResponse);
   rpc GetValidatorsForEpoch (GetValidatorsForEpochRequest) returns (GetValidatorsForEpochResponse);
+  rpc GetRuntimeStakingInfo (GetRuntimeStakingInfoRequest) returns (GetRuntimeStakingInfoResponse);
 }
 
 // Account
@@ -659,4 +660,26 @@ message GetValidatorsForEpochRequest {
 
 message GetValidatorsForEpochResponse {
   repeated ValidatorsForEpoch validators_for_epochs = 1;
+}
+
+message NodePoolInfo {
+    string node = 1;
+    string staked_balance = 2;
+    string locking_period = 3;
+    string reward_wallet_address = 4;
+    string min_pool_balance = 5;
+    optional string min_pool_balance_from = 6;
+    string max_pool_balance = 7;
+    optional string max_pool_balance_from = 8;
+}
+
+message RuntimeStakingInfo {
+    map<string, NodePoolInfo> nodes = 1;
+    map<string, string> reward_node_map = 2;
+}
+
+message GetRuntimeStakingInfoRequest {}
+
+message GetRuntimeStakingInfoResponse {
+  RuntimeStakingInfo runtime_staking_info = 1;
 }
