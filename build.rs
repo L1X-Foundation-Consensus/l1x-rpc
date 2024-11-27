@@ -110,6 +110,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 		.type_attribute("ValidatorsForEpoch", SERDE_ANNOTATION)
 		.type_attribute("GetValidatorsForEpochRequest", SERDE_ANNOTATION)
 		.type_attribute("GetValidatorsForEpochResponse", SERDE_ANNOTATION)
+		.type_attribute("VoteDetail", SERDE_ANNOTATION)
+		.type_attribute("BlockInfo", SERDE_ANNOTATION)
+		.type_attribute("GetBlockInfoRequest", SERDE_ANNOTATION)
+		.type_attribute("GetBlockInfoResponse", SERDE_ANNOTATION)
 		.protoc_arg("--experimental_allow_proto3_optional");
 	tonic_build::configure().compile_with_config(config, &["l1x_rpc_model.proto"], &["proto"])?;
 
