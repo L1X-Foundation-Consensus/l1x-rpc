@@ -30,6 +30,7 @@ service Node {
   rpc GetNodeHealths (GetNodeHealthsRequest) returns (GetNodeHealthsResponse);
   rpc GetBlockProposerForEpoch (GetBpForEpochRequest) returns (GetBpForEpochResponse);
   rpc GetValidatorsForEpoch (GetValidatorsForEpochRequest) returns (GetValidatorsForEpochResponse);
+  rpc GetBlockInfo (GetBlockInfoRequest) returns (GetBlockInfoResponse);
 }
 
 // Account
@@ -637,4 +638,23 @@ message GetValidatorsForEpochRequest {
 
 message GetValidatorsForEpochResponse {
   repeated ValidatorsForEpoch validators_for_epochs = 1;
+}
+
+message ValidatorDetail {
+    bool validator_vote = 1;
+    string validator_address = 2;
+    double validator_xscore = 3;
+}
+
+message BlockInfo {
+    BlockHeaderV3 block_header = 1;
+    repeated ValidatorDetail validator_details = 2;
+}
+
+message GetBlockInfoRequest {
+    string block_number = 1;
+}
+
+message GetBlockInfoResponse {
+  BlockInfo block_info = 1;
 }
