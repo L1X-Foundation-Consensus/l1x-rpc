@@ -662,14 +662,15 @@ message GetValidatorsForEpochResponse {
   repeated ValidatorsForEpoch validators_for_epochs = 1;
 }
 
-message VoteDetail {
-    bool vote = 1;
+message ValidatorDetail {
+    bool validator_vote = 1;
     string validator_address = 2;
+    double validator_xscore = 3;
 }
 
 message BlockInfo {
     BlockHeaderV3 block_header = 1;
-    repeated VoteDetail votes = 2;
+    repeated ValidatorDetail validator_details = 2;
 }
 
 message GetBlockInfoRequest {
