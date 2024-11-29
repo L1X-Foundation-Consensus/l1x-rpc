@@ -15,8 +15,6 @@ service Node {
   rpc SmartContractReadOnlyCall(SmartContractReadOnlyCallRequest) returns (SmartContractReadOnlyCallResponse);
   rpc GetChainState (GetChainStateRequest) returns (GetChainStateResponse);
   rpc GetLatestBlocks (GetLatestBlocksRequest) returns (GetLatestBlocksResponse);
-  rpc GetLatestSnapshot (GetLatestSnapshotRequest) returns (stream GetLatestSnapshotResponse);
-  rpc GetSnapshotRange (GetSnapshotRangeRequest) returns (GetSnapshotRangeResponse);
   rpc GetProtocolVersion (GetProtocolVersionRequest) returns (GetProtocolVersionResponse);
   rpc GetBlockByNumber (GetBlockByNumberRequest) returns (GetBlockByNumberResponse);
   rpc GetBlockV2ByNumber (GetBlockByNumberRequest) returns (GetBlockV2ByNumberResponse);
@@ -336,26 +334,6 @@ message GetLatestBlocksResponse {
   string head_block_number = 2;
   string head_block_hash = 3;
   string last_executed_block = 4;
-}
-
-// Snapshot request used by full_node while syncing snapshot
-message GetLatestSnapshotRequest {
-}
-
-// Snapshot available in archive node
-message GetLatestSnapshotResponse {
-  uint32 version = 1;
-  string format = 2;
-  bytes data = 3;
-}
-
-// Snapshot block range available in archive node
-message GetSnapshotRangeRequest {
-}
-
-// Snapshot's block height(highest block stored by snapshot) available in archive node
-message GetSnapshotRangeResponse {
-  string highest_block = 1;
 }
 
 // Block
