@@ -15,8 +15,6 @@ service Node {
   rpc SmartContractReadOnlyCall(SmartContractReadOnlyCallRequest) returns (SmartContractReadOnlyCallResponse);
   rpc GetChainState (GetChainStateRequest) returns (GetChainStateResponse);
   rpc GetLatestBlocks (GetLatestBlocksRequest) returns (GetLatestBlocksResponse);
-  rpc GetLatestSnapshot (GetLatestSnapshotRequest) returns (stream GetLatestSnapshotResponse);
-  rpc GetSnapshotRange (GetSnapshotRangeRequest) returns (GetSnapshotRangeResponse);
   rpc GetProtocolVersion (GetProtocolVersionRequest) returns (GetProtocolVersionResponse);
   rpc GetBlockByNumber (GetBlockByNumberRequest) returns (GetBlockByNumberResponse);
   rpc GetBlockV2ByNumber (GetBlockByNumberRequest) returns (GetBlockV2ByNumberResponse);
@@ -32,7 +30,7 @@ service Node {
   rpc GetNodeHealths (GetNodeHealthsRequest) returns (GetNodeHealthsResponse);
   rpc GetBlockProposerForEpoch (GetBpForEpochRequest) returns (GetBpForEpochResponse);
   rpc GetValidatorsForEpoch (GetValidatorsForEpochRequest) returns (GetValidatorsForEpochResponse);
-  rpc GetRuntimeStakingInfo (GetRuntimeStakingInfoRequest) returns (GetRuntimeStakingInfoResponse);
+  rpc GetBlockInfo (GetBlockInfoRequest) returns (GetBlockInfoResponse);
   rpc GetRuntimeConfig (GetRuntimeConfigRequest) returns (GetRuntimeConfigResponse);
 }
 
@@ -340,26 +338,6 @@ message GetLatestBlocksResponse {
   string last_executed_block = 4;
 }
 
-// Snapshot request used by full_node while syncing snapshot
-message GetLatestSnapshotRequest {
-}
-
-// Snapshot available in archive node
-message GetLatestSnapshotResponse {
-  uint32 version = 1;
-  string format = 2;
-  bytes data = 3;
-}
-
-// Snapshot block range available in archive node
-message GetSnapshotRangeRequest {
-}
-
-// Snapshot's block height(highest block stored by snapshot) available in archive node
-message GetSnapshotRangeResponse {
-  string highest_block = 1;
-}
-
 // Block
 message Block {
   string number = 1;
@@ -663,6 +641,25 @@ message GetValidatorsForEpochResponse {
   repeated ValidatorsForEpoch validators_for_epochs = 1;
 }
 
+message ValidatorDetail {
+    bool validator_vote = 1;
+    string validator_address = 2;
+    double validator_xscore = 3;
+}
+
+message BlockInfo {
+    BlockHeaderV3 block_header = 1;
+    repeated ValidatorDetail validator_details = 2;
+}
+
+message GetBlockInfoRequest {
+    string block_number = 1;
+}
+
+message GetBlockInfoResponse {
+  BlockInfo block_info = 1;
+}
+
 message NodePoolInfo {
     string node = 1;
     string staked_balance = 2;
@@ -677,12 +674,6 @@ message NodePoolInfo {
 message RuntimeStakingInfo {
     map<string, NodePoolInfo> nodes = 1;
     map<string, string> reward_node_map = 2;
-}
-
-message GetRuntimeStakingInfoRequest {}
-
-message GetRuntimeStakingInfoResponse {
-  RuntimeStakingInfo runtime_staking_info = 1;
 }
 
 message XscoreConfig {
@@ -743,9 +734,20 @@ message RuntimeConfig {
     ValidatorRewards rewards = 11;
 }
 
+message WBAddresses {
+    repeated string sender_addresses = 1;
+    repeated string receiver_addresses = 2;
+}
+
+message RuntimeDenyConfig {
+    optional WBAddresses whitelisted_addresses = 1;
+    optional WBAddresses blacklisted_addresses = 2;
+}
+
 message GetRuntimeConfigRequest {}
 
 message GetRuntimeConfigResponse {
   RuntimeConfig runtime_config = 1;
+  RuntimeStakingInfo runtime_staking_info = 2;
+  RuntimeDenyConfig runtime_deny_config = 3;
 }
-
