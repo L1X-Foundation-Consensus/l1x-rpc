@@ -110,6 +110,17 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 		.type_attribute("BlockInfo", SERDE_ANNOTATION)
 		.type_attribute("GetBlockInfoRequest", SERDE_ANNOTATION)
 		.type_attribute("GetBlockInfoResponse", SERDE_ANNOTATION)
+		.type_attribute("NodePoolInfo", SERDE_ANNOTATION)
+		.type_attribute("RuntimeStakingInfo", SERDE_ANNOTATION)
+		.type_attribute("XscoreConfig", SERDE_ANNOTATION)
+		.type_attribute("StakeScoreConfig", SERDE_ANNOTATION)
+		.type_attribute("KinScoreConfig", SERDE_ANNOTATION)
+		.type_attribute("ValidatorRewards", SERDE_ANNOTATION)
+		.type_attribute("RuntimeConfig", SERDE_ANNOTATION)
+		.type_attribute("WBAddresses", SERDE_ANNOTATION)
+		.type_attribute("RuntimeDenyConfig", SERDE_ANNOTATION)
+		.type_attribute("GetRuntimeConfigRequest", SERDE_ANNOTATION)
+		.type_attribute("GetRuntimeConfigResponse", SERDE_ANNOTATION)
 		.protoc_arg("--experimental_allow_proto3_optional");
 	tonic_build::configure().compile_with_config(config, &["l1x_rpc_model.proto"], &["proto"])?;
 
