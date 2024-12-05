@@ -121,6 +121,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 		.type_attribute("RuntimeDenyConfig", SERDE_ANNOTATION)
 		.type_attribute("GetRuntimeConfigRequest", SERDE_ANNOTATION)
 		.type_attribute("GetRuntimeConfigResponse", SERDE_ANNOTATION)
+		.type_attribute("ValidatorShort", SERDE_ANNOTATION)
+		.type_attribute("VoteResultShort", SERDE_ANNOTATION)
+		.type_attribute("GetBlockWithDetailsByNumberRequest", SERDE_ANNOTATION)
+		.type_attribute("GetBlockWithDetailsByNumberResponse", SERDE_ANNOTATION)
 		.protoc_arg("--experimental_allow_proto3_optional");
 	tonic_build::configure().compile_with_config(config, &["l1x_rpc_model.proto"], &["proto"])?;
 
