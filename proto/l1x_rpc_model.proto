@@ -769,12 +769,12 @@ message VoteResultShort {
   bytes validator_address = 1;
   bytes signature = 2;
   bytes verifying_key = 3;
-  bytes vote_passed = 4;
+  bool vote_passed = 4;
   bytes votes = 5;
 }
 
 message ValidatorShort {
   bytes address = 1;
-  uint64 epoch = 3;
-  double xscore = 5;
+  uint64 epoch = 2;
+  double xscore = 3;
 }
