@@ -19,6 +19,7 @@ service Node {
   rpc GetBlockByNumber (GetBlockByNumberRequest) returns (GetBlockByNumberResponse);
   rpc GetBlockV2ByNumber (GetBlockByNumberRequest) returns (GetBlockV2ByNumberResponse);
   rpc GetBlockV3ByNumber (GetBlockByNumberRequest) returns (GetBlockV3ByNumberResponse);
+  rpc GetBlockWithDetailsByNumber (GetBlockWithDetailsByNumberRequest) returns (GetBlockWithDetailsByNumberResponse);
   rpc GetStake(GetStakeRequest) returns (GetStakeResponse);
   rpc GetCurrentNonce(GetCurrentNonceRequest) returns (GetCurrentNonceResponse);
   rpc GetEvents(GetEventsRequest) returns (stream GetEventsResponse);
@@ -750,4 +751,30 @@ message GetRuntimeConfigResponse {
   RuntimeConfig runtime_config = 1;
   RuntimeStakingInfo runtime_staking_info = 2;
   RuntimeDenyConfig runtime_deny_config = 3;
+}
+
+message GetBlockWithDetailsByNumberRequest {
+  string block_number = 1;
+  bool include_vote_result = 2;
+  bool include_validators = 3;
+}
+
+message GetBlockWithDetailsByNumberResponse {
+  BlockV3 block = 1;
+  optional VoteResultShort vote_result = 2;
+  repeated ValidatorShort validators = 3;
+}
+
+message VoteResultShort {
+  bytes validator_address = 1;
+  bytes signature = 2;
+  bytes verifying_key = 3;
+  bool vote_passed = 4;
+  bytes votes = 5;
+}
+
+message ValidatorShort {
+  bytes address = 1;
+  uint64 epoch = 2;
+  double xscore = 3;
 }
