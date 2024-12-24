@@ -169,6 +169,12 @@ pub enum TransactionTypeV2 {
 		pool_address: Address,
 		contract_instance_address: Address,
 	},
+	Upgrade {
+		instance_address: Address,
+		new_code_address: Address,
+		init_upgrade_args: UpgradeArgs,
+		migrate_args: UpgradeArgs,
+	},
 }
 
 

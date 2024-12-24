@@ -247,6 +247,18 @@ pub mod rpc_model {
 					amount: u128::from_str(&amount)
 						.map_err(|_| anyhow!("Failed to convert string to u128"))?,
 				},
+				submit_transaction_request_v2::TransactionType::Upgrade(
+					Upgrade { instance_address, new_code_address, init_upgrade_args, migrate_args },
+				) => super::transaction::TransactionTypeV2::Upgrade {
+					instance_address: instance_address
+						.try_into()
+						.map_err(|_| anyhow!("Failed to convert instance_address bytes"))?,
+					new_code_address: new_code_address
+						.try_into()
+						.map_err(|_| anyhow!("Failed to convert new_code_address bytes"))?,
+					init_upgrade_args,
+					migrate_args,
+				},
 			};
 			Ok(result_txn_type)
 		}
@@ -342,6 +354,18 @@ pub mod rpc_model {
 						.map_err(|_| anyhow!("Failed to convert pool_address bytes"))?,
 					amount: u128::from_str(&amount)
 						.map_err(|_| anyhow!("Failed to convert string to u128"))?,
+				},
+				estimate_fee_request::TransactionType::Upgrade(
+					Upgrade { instance_address, new_code_address, init_upgrade_args, migrate_args },
+				) => super::transaction::TransactionTypeV2::Upgrade {
+					instance_address: instance_address
+						.try_into()
+						.map_err(|_| anyhow!("Failed to convert instance_address bytes"))?,
+					new_code_address: new_code_address
+						.try_into()
+						.map_err(|_| anyhow!("Failed to convert new_code_address bytes"))?,
+					init_upgrade_args,
+					migrate_args,
 				},
 			};
 			Ok(result_txn_type)
@@ -490,6 +514,12 @@ pub enum TransactionTypeV2SignPayload {
 		pool_address: Address,
 		contract_instance_address: Address,
 	},
+	Upgrade {
+		instance_address: Address,
+		new_code_address: Address,
+		init_upgrade_args: UpgradeArgs,
+		migrate_args: UpgradeArgs,
+	},
 }
 
 impl From<TransactionTypeV2> for TransactionTypeV2SignPayload {
@@ -509,7 +539,9 @@ impl From<TransactionTypeV2> for TransactionTypeV2SignPayload {
 			TransactionTypeV2::StakingPoolContract { pool_address, contract_instance_address } => 
 				Self::StakingPoolContract { pool_address, contract_instance_address },
 			TransactionTypeV2::UnStake { pool_address, amount } =>
-				Self::UnStake { pool_address, amount }
+				Self::UnStake { pool_address, amount },
+			TransactionTypeV2::Upgrade { instance_address, new_code_address, init_upgrade_args, migrate_args } =>
+				Self::Upgrade { instance_address, new_code_address, init_upgrade_args, migrate_args },
 		}
 	}
 }

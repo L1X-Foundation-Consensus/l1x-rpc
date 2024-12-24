@@ -120,6 +120,13 @@ message UnStake {
   string amount = 2;
 }
 
+message Upgrade {
+  bytes instance_address = 1;
+  bytes new_code_address = 2;
+  bytes init_upgrade_args = 3;
+  bytes migrate_args = 4;
+}
+
 message GetCurrentNonceRequest {
   string address = 1;
 }
@@ -154,6 +161,7 @@ enum TransactionType {
   TRANSACTION_TYPE_SMART_CONTRACT_FUNCTION_CALL = 4;
   TRANSACTION_TYPE_STAKE = 5;
   TRANSACTION_TYPE_UNSTAKE = 6;
+  TRANSACTION_TYPE_UPGRADE = 7;
 }
 
 enum AccessType {
@@ -189,10 +197,10 @@ message Transaction {
     Stake stake = 6;
     UnStake unstake = 7;
   }
-  string nonce = 8;
-  string fee_limit = 9;
-  bytes signature = 10;
-  bytes verifying_key = 11;
+  string nonce = 9;
+  string fee_limit = 10;
+  bytes signature = 11;
+  bytes verifying_key = 12;
 }
 
 message TransactionV2 {
@@ -205,11 +213,11 @@ message TransactionV2 {
     Stake stake = 6;
     UnStake unstake = 7;
   }
-  string nonce = 8;
-  string fee_limit = 9;
-  bytes signature = 10;
-  bytes verifying_key = 11;
-  optional bytes eth_original_transaction = 12;
+  string nonce = 9;
+  string fee_limit = 10;
+  bytes signature = 11;
+  bytes verifying_key = 12;
+  optional bytes eth_original_transaction = 13;
 }
 
 message TransactionV3 {
@@ -222,12 +230,13 @@ message TransactionV3 {
     SmartContractFunctionCallV2 smart_contract_function_call = 6;
     Stake stake = 7;
     UnStake unstake = 8;
+    Upgrade upgrade = 9;
   }
-  string nonce = 9;
-  string fee_limit = 10;
-  bytes signature = 11;
-  bytes verifying_key = 12;
-  optional bytes eth_original_transaction = 13;
+  string nonce = 10;
+  string fee_limit = 11;
+  bytes signature = 12;
+  bytes verifying_key = 13;
+  optional bytes eth_original_transaction = 14;
 }
 
 // Used when submitting a transaction
@@ -258,10 +267,11 @@ message SubmitTransactionRequestV2 {
     CreateStakingPool create_staking_pool = 9;
     Stake stake = 10;
     UnStake unstake = 11;
+    Upgrade upgrade = 12;
   }
-  string fee_limit = 12;
-  bytes signature = 13;
-  bytes verifying_key = 14;
+  string fee_limit = 13;
+  bytes signature = 14;
+  bytes verifying_key = 15;
 }
 
 message SubmitTransactionResponse {
@@ -279,8 +289,9 @@ message EstimateFeeRequest {
     CreateStakingPool create_staking_pool = 9;
     Stake stake = 10;
     UnStake unstake = 11;
+    Upgrade upgrade = 12;
   }
-  bytes verifying_key = 12;
+  bytes verifying_key = 13;
 }
 
 message EstimateFeeResponse {

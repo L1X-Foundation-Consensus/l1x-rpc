@@ -18,6 +18,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 		.type_attribute("CreateStakingPool", SERDE_ANNOTATION)
 		.type_attribute("Stake", SERDE_ANNOTATION)
 		.type_attribute("UnStake", SERDE_ANNOTATION)
+		.type_attribute("Upgrade", SERDE_ANNOTATION)
 		.type_attribute("GetCurrentNonceRequest", SERDE_ANNOTATION)
 		.type_attribute("GetCurrentNonceResponse", SERDE_ANNOTATION)
 		.type_attribute("GetEventsRequest", SERDE_ANNOTATION)
