@@ -53,6 +53,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 		.type_attribute("GetTransactionsV3ByAccountResponse", SERDE_ANNOTATION)
 		.type_attribute("GetChainStateRequest", SERDE_ANNOTATION)
 		.type_attribute("GetChainStateResponse", SERDE_ANNOTATION)
+		.type_attribute("GetActivePeersRequest", SERDE_ANNOTATION)
+		.type_attribute("GetActivePeersResponse", SERDE_ANNOTATION)
 		.type_attribute("GetLatestBlocksRequest", SERDE_ANNOTATION)
 		.type_attribute("GetLatestBlocksResponse", SERDE_ANNOTATION)
 		.type_attribute("GetProtocolVersionRequest", SERDE_ANNOTATION)

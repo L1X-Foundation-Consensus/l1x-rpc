@@ -33,6 +33,7 @@ service Node {
   rpc GetValidatorsForEpoch (GetValidatorsForEpochRequest) returns (GetValidatorsForEpochResponse);
   rpc GetBlockInfo (GetBlockInfoRequest) returns (GetBlockInfoResponse);
   rpc GetRuntimeConfig (GetRuntimeConfigRequest) returns (GetRuntimeConfigResponse);
+  rpc GetActivePeers (GetActivePeersRequest) returns (GetActivePeersResponse);
 }
 
 // Account
@@ -53,6 +54,12 @@ message GetAccountStateRequest {
 
 message GetAccountStateResponse {
   AccountState account_state = 1;
+}
+
+message GetActivePeersRequest {}
+
+message GetActivePeersResponse {
+  repeated NodeInfo active_peers = 1;
 }
 
 // Transaction
