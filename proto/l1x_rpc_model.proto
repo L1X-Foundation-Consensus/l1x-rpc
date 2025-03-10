@@ -58,8 +58,13 @@ message GetAccountStateResponse {
 
 message GetActivePeersRequest {}
 
+message ActivePeerInfo {
+  bytes address = 1;
+  string address_str = 2;
+  string peer_id = 3;
+}
 message GetActivePeersResponse {
-  repeated NodeInfo active_peers = 1;
+  repeated ActivePeerInfo active_peers = 1;
 }
 
 // Transaction

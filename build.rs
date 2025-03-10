@@ -8,6 +8,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 		.type_attribute("AccountType", SERDE_ANNOTATION)
 		.type_attribute("GetAccountStateRequest", SERDE_ANNOTATION)
 		.type_attribute("GetAccountStateResponse", SERDE_ANNOTATION)
+		.type_attribute("ActivePeerInfo", SERDE_ANNOTATION)
 		.type_attribute("NativeTokenTransfer", SERDE_ANNOTATION)
 		.type_attribute("SmartContractDeployment", SERDE_ANNOTATION)
 		.type_attribute("SmartContractInit", SERDE_ANNOTATION)
