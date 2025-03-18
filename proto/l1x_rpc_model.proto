@@ -59,11 +59,10 @@ message GetAccountStateResponse {
 message GetActivePeersRequest {}
 
 message ActivePeerInfo {
-  bytes address = 1;
-  string address_str = 2;
-  string peer_id = 3;
-  string status = 4;
-  uint64 last_executed_block = 5;
+  string node_address = 1;
+  string peer_id = 2;
+  string status = 3;
+  uint64 last_executed_block = 4;
 }
 message GetActivePeersResponse {
   repeated ActivePeerInfo active_peers = 1;
