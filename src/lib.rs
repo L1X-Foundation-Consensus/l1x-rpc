@@ -428,6 +428,17 @@ pub mod rpc_model {
 						amount: u128::from_str(&amount)
 							.map_err(|_| anyhow!("Failed to convert string to u128"))?,
 					},
+				// XTalkAttestation exists in the proto so that blocks containing it can be
+				// transferred and queried. It is a system transaction built by the block
+				// proposer, never submitted by a client, so this direction — client-supplied
+				// proto turned into a submittable transaction — has no legitimate use.
+				//
+				// Node-side conversion for block transfer lives in l1x-consensus
+				// (util/src/convert.rs) and does not go through this impl.
+				transaction::Transaction::XtalkAttestation(_) =>
+					return Err(anyhow!(
+						"XTalkAttestation is a system transaction and cannot be submitted by a client"
+					)),
 			};
 			Ok(result_txn_type)
 		}

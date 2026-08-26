@@ -167,6 +167,7 @@ enum TransactionType {
   TRANSACTION_TYPE_SMART_CONTRACT_FUNCTION_CALL = 4;
   TRANSACTION_TYPE_STAKE = 5;
   TRANSACTION_TYPE_UNSTAKE = 6;
+  TRANSACTION_TYPE_XTALK_ATTESTATION = 7;
 }
 
 enum AccessType {
@@ -192,6 +193,28 @@ enum TransactionVersion {
   TRANSACTION_VERSION_V3 = 2;
 }
 
+// A cross-chain event observed on a source chain by validators' watchers and carried into a
+// block for execution against the XTalk portal.
+//
+// This is a SYSTEM transaction: it is constructed by the block proposer, sent from the
+// SYSTEM_XTALK_ATTESTOR address with an empty signature, and is never submitted by a client.
+// It is represented here purely so that blocks containing it can be transferred between nodes
+// and returned by RPC. Without this message, any request for such a block fails to serialise
+// and the requesting node cannot sync past it.
+message XTalkAttestation {
+  uint32 source_chain_id = 1;
+  bytes  message_id      = 2;   // 32 bytes
+  bytes  source_contract = 3;   // 20 bytes
+  bytes  source_tx_hash  = 4;   // 32 bytes
+  uint32 log_index       = 5;
+  // Source-chain block number — the foreign EVM chain's, not L1X's.
+  uint64 block_number    = 6;
+  // ABI-encoded `(bytes32[] topics, bytes data)`. Topics are included because indexed
+  // parameters, such as a mint recipient, live there rather than in `data`.
+  bytes  event_data      = 7;
+  bytes  target          = 8;   // 20 bytes
+}
+
 message Transaction {
   TransactionType tx_type = 1;
   oneof transaction {
@@ -201,6 +224,11 @@ message Transaction {
     SmartContractFunctionCall smart_contract_function_call = 5;
     Stake stake = 6;
     UnStake unstake = 7;
+    // 12 is the next free field number in THIS message — 8..11 are taken below.
+    // The equivalent field is 13 in TransactionV2 and 14 in TransactionV3; they are not
+    // interchangeable, and reusing a taken number silently corrupts decoding for existing
+    // clients.
+    XTalkAttestation xtalk_attestation = 12;
   }
   string nonce = 8;
   string fee_limit = 9;
@@ -217,6 +245,8 @@ message TransactionV2 {
     SmartContractFunctionCall smart_contract_function_call = 5;
     Stake stake = 6;
     UnStake unstake = 7;
+    // 13 here — 12 is taken by eth_original_transaction below.
+    XTalkAttestation xtalk_attestation = 13;
   }
   string nonce = 8;
   string fee_limit = 9;
@@ -235,6 +265,8 @@ message TransactionV3 {
     SmartContractFunctionCallV2 smart_contract_function_call = 6;
     Stake stake = 7;
     UnStake unstake = 8;
+    // 14 here — 9..13 are taken below.
+    XTalkAttestation xtalk_attestation = 14;
   }
   string nonce = 9;
   string fee_limit = 10;

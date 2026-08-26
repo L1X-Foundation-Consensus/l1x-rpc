@@ -19,6 +19,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 		.type_attribute("CreateStakingPool", SERDE_ANNOTATION)
 		.type_attribute("Stake", SERDE_ANNOTATION)
 		.type_attribute("UnStake", SERDE_ANNOTATION)
+		// Required: the Transaction/V2/V3 `transaction` oneofs derive serde, so every variant
+		// they can hold must derive it too, or those messages fail to compile.
+		.type_attribute("XTalkAttestation", SERDE_ANNOTATION)
 		.type_attribute("GetCurrentNonceRequest", SERDE_ANNOTATION)
 		.type_attribute("GetCurrentNonceResponse", SERDE_ANNOTATION)
 		.type_attribute("GetEventsRequest", SERDE_ANNOTATION)
